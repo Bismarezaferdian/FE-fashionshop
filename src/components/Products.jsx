@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
-import { popularProducts } from "../data";
+import { Shoes } from "../data";
 import { addToProduct } from "../redux/productRedux";
 import { fetchData } from "../useFetch";
 import Product from "./Product";
@@ -17,6 +17,7 @@ const Container = styled.div`
 
 const Products = ({ cat, filters, sort }) => {
   const { state } = useLocation();
+  console.log(state);
   const searchProduct = state;
   // console.log(searchProduct.length);
   const [products, setProducts] = useState([]);
@@ -77,7 +78,7 @@ const Products = ({ cat, filters, sort }) => {
     <Container>
       {searchProduct?.length > 0
         ? searchProduct?.map((item) => <Product item={item} key={item.id} />)
-        : popularProducts?.map((item) => <Product item={item} key={item.id} />)}
+        : Shoes?.map((item) => <Product item={item} key={item.id} />)}
       {/* popularProduct di ganti dengan  product */}
     </Container>
   );

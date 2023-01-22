@@ -11,6 +11,7 @@ import { mobile } from "../responsive";
 const Container = styled.div`
   height: 60px;
   ${mobile({ height: "50px" })}
+  background: #3330E4;
 `;
 
 const Wrapper = styled.div`
@@ -54,7 +55,8 @@ const Center = styled.div`
 const Logo = styled(Link)`
   font-weight: bold;
   text-decoration: none;
-  color: black;
+  color: #ffffff;
+  /* color:  black; */
 
   ${mobile({ fontSize: "24px" })}
 `;
@@ -116,7 +118,7 @@ const Navbar = () => {
         <Center>
           {/* <Link to={"/"}> */}
           <Logo to={"/"}>
-            <h1>SHIFA Fashion shop</h1>
+            <h1>SNEAKERS</h1>
           </Logo>
           {/* </Link> */}
         </Center>

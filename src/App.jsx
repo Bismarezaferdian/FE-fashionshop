@@ -6,6 +6,7 @@ import Login from "./pages/Login";
 import Cart from "./pages/Cart";
 import { Route, Routes, Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import NewArrival from "./pages/NewArrivalShoes";
 
 const App = () => {
   const user = useSelector((state) => state.user.currentUser);
@@ -15,6 +16,7 @@ const App = () => {
     <>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/newarrival" element={<NewArrival />} />
         <Route path="/products/" element={<ProductList />} />
         <Route path="/products/:category" element={<ProductList />} />
         <Route path="/product/:id" element={<Product />} />

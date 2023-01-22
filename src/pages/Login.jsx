@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
 import styled from "styled-components";
 import { login } from "../redux/apiCall";
 import { mobile } from "../responsive";
@@ -61,6 +63,7 @@ const Link = styled.a`
 `;
 
 const Login = () => {
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
@@ -70,6 +73,7 @@ const Login = () => {
   const handleClick = (e) => {
     e.preventDefault();
     login(dispatch, { username, password });
+    navigate("/");
   };
 
   return (
