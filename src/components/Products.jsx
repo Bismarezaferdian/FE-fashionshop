@@ -17,7 +17,7 @@ const Container = styled.div`
 
 const Products = ({ cat, filters, sort }) => {
   const { state } = useLocation();
-  // console.log(state);
+  console.log(state);
   const searchProduct = state;
   // console.log(searchProduct.length);
   // console.log(searchProduct);

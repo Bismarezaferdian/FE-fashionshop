@@ -87,7 +87,7 @@ export const categories = [
   },
   {
     id: 6,
-    img: "http://res.cloudinary.com/websitemuid/image/upload/v1674356437/upload/ozwacvvrkeor5o3f9los.png",
+    img: "http://res.cloudinary.com/websitemuid/image/upload/v1674580564/upload/zhdizviopzednom9kqhq.png",
     alt: "converse",
     // title: "LIGHT JACKETS",
   },
