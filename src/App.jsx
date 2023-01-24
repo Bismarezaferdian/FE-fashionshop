@@ -6,7 +6,7 @@ import Login from "./pages/Login";
 import Cart from "./pages/Cart";
 import { Route, Routes, Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import NewArrival from "./pages/NewArrivalShoes";
+import NewArrival from "./pages/RellsProducts";
 
 const App = () => {
   const user = useSelector((state) => state.user.currentUser);

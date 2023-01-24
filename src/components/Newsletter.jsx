@@ -4,7 +4,8 @@ import { mobile } from "../responsive";
 
 const Container = styled.div`
   height: 60vh;
-  background-color: #fcf5f5;
+  background-color: #3330e4;
+  color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -20,7 +21,6 @@ const Desc = styled.div`
   font-weight: 300;
   margin-bottom: 20px;
   ${mobile({ textAlign: "center" })}
-
 `;
 
 const InputContainer = styled.div`

@@ -10,3 +10,5 @@ export const login = async (dispatch, user) => {
     dispatch(loginFailure());
   }
 };
+
+//product seach by new and limit http://localhost:3000/api/v1/products?new=true&limit=2

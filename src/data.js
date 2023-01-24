@@ -45,6 +45,13 @@ export const vidio = [
     desc: "DON'T COMPROMISE ON STYLE! GET FLAT 30% OFF FOR NEW ARRIVALS.",
     bg: "fbf0f4",
   },
+  {
+    id: 2,
+    img: "https://res.cloudinary.com/websitemuid/video/upload/v1674397553/ee4f0dfc5d91729758262d1c29eb13f9_iu22ee.mp4",
+    title: "LOUNGEWEAR LOV",
+    desc: "DON'T COMPROMISE ON STYLE! GET FLAT 30% OFF FOR NEW ARRIVALS.",
+    bg: "fbf0f4",
+  },
 ];
 
 export const categories = [
@@ -154,7 +161,7 @@ export const Shoes = [
     price: "IDR 1.750.000",
   },
   {
-    id: 9,
+    id: 10,
     img: "https://cdn.shopify.com/s/files/1/0259/7021/2909/products/18_054a9284-08dc-478e-a5c6-bcab7fe903a6_240x@2x.png?v=1670476077",
     title: "Nike Air Max 97",
     price: "IDR 1.750.000",
@@ -221,5 +228,68 @@ export const Clotes = [
     img: "https://cdn.shopify.com/s/files/1/0259/7021/2909/products/DM1278-220-PHSFP001-2000_240x@2x.png?v=1653635597",
     title: "NIKE AS M NRG BH VEST",
     price: "IDR 2.399.000",
+  },
+];
+
+export const banner = [
+  {
+    id: 1,
+    img: "https://res.cloudinary.com/websitemuid/video/upload/v1674391801/152c50ab08cdcfd8131914810cb5602b_hnm6cv.mp4",
+    title: "LOUNGEWEAR LOV",
+    desc: "DON'T COMPROMISE ON STYLE! GET FLAT 30% OFF FOR NEW ARRIVALS.",
+    bg: "fbf0f4",
+  },
+  {
+    id: 2,
+    img: "http://res.cloudinary.com/websitemuid/image/upload/v1674410402/upload/r1be9yaojli9fdtikary.png",
+    title: "LOUNGEWEAR LOV",
+    desc: "DON'T COMPROMISE ON STYLE! GET FLAT 30% OFF FOR NEW ARRIVALS.",
+    bg: "fbf0f4",
+  },
+  {
+    id: 1,
+    img: "http://res.cloudinary.com/websitemuid/image/upload/v1674410549/upload/iztayvvom4jkizucs7pg.png",
+    title: "LOUNGEWEAR LOV",
+    desc: "DON'T COMPROMISE ON STYLE! GET FLAT 30% OFF FOR NEW ARRIVALS.",
+    bg: "fbf0f4",
+  },
+];
+
+export const rellsProduct = [
+  {
+    id: 1,
+    img: "https://cdn.shopify.com/s/files/1/0259/7021/2909/products/UNI-NB-X-Thisisneverthat-5.0-Downtown-Run-Shorts-Blue-Green1_1080x_4a2373f1-b162-413a-be79-3a5a96139bd3_240x@2x.jpg?v=1665214686",
+    title: "NEW BALANCE NBNVC3LGRN",
+    price: "IDR 1.200.000",
+  },
+  {
+    id: 2,
+    img: "https://cdn.shopify.com/s/files/1/0259/7021/2909/products/HZ4935_1_APPAREL_Photography_FrontView_transparent_240x@2x.png?v=1661228521",
+    title: "ADIDAS KEY CITY TEE JP",
+    price: "IDR 1.200.000",
+  },
+  {
+    id: 3,
+    img: "https://cdn.shopify.com/s/files/1/0259/7021/2909/products/2201A084_020_GM_FT_GLB_240x@2x.jpg?v=1650432888",
+    title: "ASICS JPN VIEW SS TEE 3",
+    price: "IDR 999.999",
+  },
+  {
+    id: 4,
+    img: "https://cdn.shopify.com/s/files/1/0259/7021/2909/products/DM0028-700-PHSLH001-2000_240x@2x.jpg?v=1671095245",
+    title: "Nike Air Max 97",
+    price: "IDR 1.750.000",
+  },
+  {
+    id: 5,
+    img: "https://cdn.shopify.com/s/files/1/0259/7021/2909/products/DX5590-001-PHSLH000-2000_240x@2x.jpg?v=1673924198",
+    title: "Nike Air Max 97",
+    price: "IDR 1.750.000",
+  },
+  {
+    id: 6,
+    img: "https://cdn.shopify.com/s/files/1/0259/7021/2909/products/DQ7579-600-PHSLH001-2000_240x@2x.jpg?v=1669787593",
+    title: "Nike Air Max 97",
+    price: "IDR 1.750.000",
   },
 ];

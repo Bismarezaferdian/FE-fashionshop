@@ -17,20 +17,20 @@ const Container = styled.div`
 
 const Products = ({ cat, filters, sort }) => {
   const { state } = useLocation();
-  console.log(state);
+  // console.log(state);
   const searchProduct = state;
   // console.log(searchProduct.length);
+  // console.log(searchProduct);
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([1]);
 
   const dispatch = useDispatch();
   // console.log(cat, filters, sort);
-  // console.log(filters);
   useEffect(() => {
     const getProduct = async () => {
       try {
         const res = await fetchData.get(
-          cat ? `/product?categories=${cat}` : "/product"
+          cat ? `/product?categories=${cat}` : "/products"
         );
         setProducts(res.data);
       } catch (error) {
@@ -38,10 +38,11 @@ const Products = ({ cat, filters, sort }) => {
       }
     };
     getProduct();
-    return () => {
-      dispatch(addToProduct([...products]));
-    };
-  }, [cat, dispatch, products]);
+  }, [cat]);
+
+  useEffect(() => {
+    dispatch(addToProduct([...products]));
+  }, [products, dispatch]);
 
   useEffect(() => {
     cat &&

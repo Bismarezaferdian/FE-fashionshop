@@ -1,13 +1,31 @@
 import React from "react";
 import styled from "styled-components";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination, Navigation, Autoplay } from "swiper";
-import { Shoes } from "../data";
-import ClotesNewArrival from "../components/ClotesNewArrival";
+import { Pagination, Navigation } from "swiper";
+import { rellsProduct } from "../data";
+import Rells from "../components/Rells";
+import { Link } from "react-router-dom";
 
 export const Container = styled.div`
   display: grid;
   justify-content: center;
+`;
+
+export const WrappTitle = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin: 0 60px;
+`;
+export const HeaderTitle = styled.p`
+  font-size: 18px;
+  font-weight: 600;
+`;
+export const LinkTitle = styled(Link)`
+  font-size: 18px;
+  font-weight: 600;
+  text-decoration: none;
+  list-style: none;
+  color: blue;
 `;
 
 export const Title = styled.p`
@@ -23,47 +41,32 @@ export const Title = styled.p`
 `;
 
 export const SlideWrapp = styled.div`
-  /* width: 100vw;
-  display: flex;
-  justify-content: space-between;
-  max-width: 1024px;
-  padding: 0 12px 0 12px; */
-  /* display: grid; */
-  /* grid-template-columns: repeat(5, 1fr); */
   justify-content: center;
-  /* display: flex; */
-  /* gap: 20px; */
   padding: 0 40px 0 40px;
-  /* width:  */
   margin: 20px 0 20px 0;
   max-width: 100vw;
   overflow: hidden;
 `;
 
-const NewArrivalShoes = () => {
+const RellsProducts = () => {
   return (
     <Container>
+      <WrappTitle>
+        <HeaderTitle>Explore More</HeaderTitle>
+        <LinkTitle to={"/products"}>View All</LinkTitle>
+      </WrappTitle>
       <SlideWrapp>
         <Swiper
           slidesPerView={4.5}
           spaceBetween={30}
-          loop={true}
-          autoplay={{
-            delay: 1000,
-            disableOnInteraction: false,
-            pauseOnMouseEnter: true,
-          }}
-          // pagination={{
-          //   clickable: true,
-          // }}
-          // navigation={true}
-          //   draggable={true}
-          modules={[Pagination, Navigation, Autoplay]}
+          loop={false}
+          navigation={true}
+          modules={[Navigation]}
           className="mySwiper"
         >
-          {Shoes.map((item) => (
+          {rellsProduct.map((item) => (
             <SwiperSlide key={item.id}>
-              <ClotesNewArrival item={item} />
+              <Rells item={item} />
             </SwiperSlide>
           ))}
         </Swiper>
@@ -72,4 +75,4 @@ const NewArrivalShoes = () => {
   );
 };
 
-export default NewArrivalShoes;
+export default RellsProducts;

@@ -7,7 +7,7 @@ import { sliderItems } from "../data";
 import { mobile } from "../responsive";
 
 const Container = styled.div`
-  padding: 0 40px;
+  padding: 20px 40px;
   display: flex;
   /* height: 60vh; */
   position: relative;
@@ -104,11 +104,11 @@ const Slider = () => {
         pagination={{
           clickable: true,
         }}
-        // autoplay={{
-        //   delay: 3000,
-        // }}
+        autoplay={{
+          delay: 3000,
+        }}
         loop={true}
-        autoplay={true}
+        // autoplay={true}
         modules={[Pagination, Navigation, Autoplay]}
         className="mySwiper"
       >

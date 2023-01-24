@@ -2,7 +2,6 @@ import styled from "styled-components";
 import { categories } from "../data";
 import { mobile } from "../responsive";
 import CategoryItem from "./CategoryItem";
-import Vidios from "./vidios";
 
 const Container = styled.div`
   display: grid;
@@ -18,8 +17,6 @@ const Categories = () => {
       {categories.map((item, i) => (
         <CategoryItem item={item} key={i} />
       ))}
-      <h1>test</h1>
-      {/* <Vidios /> */}
     </Container>
   );
 };
