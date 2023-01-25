@@ -5,6 +5,11 @@ import {
   getCategoriesSuccess,
   getCategoriesFailure,
 } from "./categoriesRedux";
+import {
+  getProductFailure,
+  getProductStart,
+  getProductSucces,
+} from "./productRedux";
 
 export const login = async (dispatch, user) => {
   dispatch(loginStart());
@@ -23,6 +28,16 @@ export const getCategories = async (dispatch) => {
     dispatch(getCategoriesSuccess(res.data));
   } catch (error) {
     dispatch(getCategoriesFailure());
+  }
+};
+
+export const getProducts = async (dispatch) => {
+  dispatch(getProductStart());
+  try {
+    const res = await fetchData.get("/products/");
+    dispatch(getProductSucces(res.data));
+  } catch (error) {
+    dispatch(getProductFailure());
   }
 };
 

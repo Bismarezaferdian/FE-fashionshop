@@ -6,6 +6,10 @@ import { Pagination, Navigation, Autoplay } from "swiper";
 import { Clotes, Shoes } from "../data";
 import ClotesNewArrival from "../components/ClotesNewArrival";
 import { TurnedIn } from "@material-ui/icons";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { fetchData } from "../useFetch";
+import { useState } from "react";
 
 export const Container = styled.div`
   display: grid;
@@ -23,6 +27,23 @@ export const SlideWrapp = styled.div`
 `;
 
 const NewArrival = () => {
+  const allProduct = useSelector((state) => state.product.products);
+  // console.log(allProduct);
+  const [shoes, setShoes] = useState([]);
+  const [clotes, setClotes] = useState([]);
+
+  useEffect(() => {
+    const getProductWithCat = async () => {
+      const res = await fetchData.get("/products?categories=SHOES");
+      setShoes(res?.data);
+      // const cloth = await fetchData.get("/product?categories=CLOTES");
+      // setClotes(cloth?.data);
+    };
+    getProductWithCat();
+  }, [allProduct]);
+
+  console.log(shoes);
+
   return (
     <Container>
       <SlideWrapp>
@@ -43,9 +64,9 @@ const NewArrival = () => {
           modules={[Pagination, Navigation, Autoplay]}
           className="mySwiper"
         >
-          {Shoes.map((item) => (
+          {shoes.map((item) => (
             <SwiperSlide key={item.id}>
-              <ClotesNewArrival item={item} />
+              <ShoesNewArrival item={item} />
             </SwiperSlide>
           ))}
         </Swiper>

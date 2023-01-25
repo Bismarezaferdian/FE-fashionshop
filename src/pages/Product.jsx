@@ -8,6 +8,7 @@ import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import Newsletter from "../components/Newsletter";
+import { getProducts } from "../redux/apiCall";
 import { addProduct } from "../redux/cartRedux";
 import { mobile } from "../responsive";
 import { fetchData } from "../useFetch";
@@ -134,17 +135,18 @@ const Product = () => {
 
   // console.log(color);
   useEffect(() => {
-    const getProductItem = async () => {
-      try {
-        const res = await fetchData.get(`/product/find/${id}`);
-        setProduct(res.data);
-      } catch (error) {
-        // setError(error);
-        console.log(error);
-      }
-    };
-    getProductItem();
-  }, [id]);
+    dispatch(getProducts());
+    // const getProductItem = async () => {
+    //   try {
+    //     const res = await fetchData.get(`/product/find/${id}`);
+    //     setProduct(res.data);
+    //   } catch (error) {
+    //     // setError(error);
+    //     console.log(error);
+    //   }
+    // };
+    // getProductItem();
+  }, [dispatch]);
 
   const handleQty = (type) => {
     if (type === "desc") {
