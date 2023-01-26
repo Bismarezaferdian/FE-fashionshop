@@ -36,7 +36,7 @@ function ClotesNewArrival({ item }) {
   return (
     <Link to="/cart">
       <Container>
-        <Image src={item.img} />
+        <Image src={item.imgDisplay} />
         <Title>{item.title}</Title>
         <Price>{item.price}</Price>
       </Container>

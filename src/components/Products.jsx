@@ -23,21 +23,19 @@ const Products = ({ cat, filters, sort }) => {
   // console.log(searchProduct);
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([1]);
-
   const dispatch = useDispatch();
-  // console.log(cat, filters, sort);
   useEffect(() => {
-    const getProduct = async () => {
-      try {
-        const res = await fetchData.get(
-          cat ? `/product?categories=${cat}` : "/products"
-        );
-        setProducts(res.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getProduct();
+    // const getProduct = async () => {
+    //   try {
+    //     const res = await fetchData.get(
+    //       cat ? `/product?categories=${cat}` : "/products"
+    //     );
+    //     setProducts(res.data);
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // };
+    // getProduct();
   }, [cat]);
 
   useEffect(() => {

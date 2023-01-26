@@ -31,10 +31,10 @@ export const getCategories = async (dispatch) => {
   }
 };
 
-export const getProducts = async (dispatch) => {
+export const getProducts = async (dispatch, cat) => {
   dispatch(getProductStart());
   try {
-    const res = await fetchData.get("/products/");
+    const res = await fetchData.get(cat ? `/products/${cat}` : "/products/");
     dispatch(getProductSucces(res.data));
   } catch (error) {
     dispatch(getProductFailure());

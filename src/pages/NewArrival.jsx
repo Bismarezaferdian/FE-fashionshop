@@ -34,15 +34,16 @@ const NewArrival = () => {
 
   useEffect(() => {
     const getProductWithCat = async () => {
-      const res = await fetchData.get("/products?categories=SHOES");
+      //limit set di api product
+      const res = await fetchData.get(`/products?categories=SHOES&limit=4`);
       setShoes(res?.data);
-      // const cloth = await fetchData.get("/product?categories=CLOTES");
-      // setClotes(cloth?.data);
+      const cloth = await fetchData.get("/products?categories=CLOTHES");
+      setClotes(cloth?.data);
     };
     getProductWithCat();
   }, [allProduct]);
 
-  console.log(shoes);
+  console.log(clotes);
 
   return (
     <Container>
@@ -65,7 +66,7 @@ const NewArrival = () => {
           className="mySwiper"
         >
           {shoes.map((item) => (
-            <SwiperSlide key={item.id}>
+            <SwiperSlide key={item._id}>
               <ShoesNewArrival item={item} />
             </SwiperSlide>
           ))}
@@ -89,8 +90,8 @@ const NewArrival = () => {
           modules={[Pagination, Navigation, Autoplay]}
           className="mySwiper"
         >
-          {Clotes.map((item) => (
-            <SwiperSlide key={item.id}>
+          {clotes.map((item) => (
+            <SwiperSlide key={item._id}>
               <ShoesNewArrival item={item} />
             </SwiperSlide>
           ))}
