@@ -24,7 +24,17 @@ const productSlice = createSlice({
       state.isFething = false;
       state.error = false;
       state.products = action.payload;
+      // console.log(action);
     },
+    getProductFilter: (state, action) => {
+      state.isFething = false;
+      state.error = false;
+      if (action.payload.length <= 0) {
+        state.productFilters = [];
+      }
+      state.productFilters = action.payload;
+    },
+
     getProductFailure: (state) => {
       state.isFething = false;
       state.error = true;
@@ -38,5 +48,6 @@ export const {
   getProductStart,
   getProductSucces,
   getProductFailure,
+  getProductFilter,
 } = productSlice.actions;
 export default productSlice.reducer;

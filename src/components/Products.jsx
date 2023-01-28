@@ -4,7 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { Shoes } from "../data";
-import { addToProduct } from "../redux/productRedux";
+import { getProducts } from "../redux/apiCall";
+import { addToProduct, getProductFailure } from "../redux/productRedux";
 import { fetchData } from "../useFetch";
 import Product from "./Product";
 
@@ -17,67 +18,75 @@ const Container = styled.div`
 
 const Products = ({ cat, filters, sort }) => {
   const { state } = useLocation();
-  console.log(state);
-  const searchProduct = state;
-  // console.log(searchProduct.length);
-  // console.log(searchProduct);
-  const [products, setProducts] = useState([]);
-  const [filteredProducts, setFilteredProducts] = useState([1]);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    // const getProduct = async () => {
-    //   try {
-    //     const res = await fetchData.get(
-    //       cat ? `/product?categories=${cat}` : "/products"
-    //     );
-    //     setProducts(res.data);
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // };
-    // getProduct();
-  }, [cat]);
+  const [productFilters, setProductFilters] = useState(state);
+  const allProduct = useSelector((state) => state.product.products);
+  const [product, setProduct] = useState(allProduct);
+  // const [products, setProducts] = useState([]);
+  // const [filteredProducts, setFilteredProducts] = useState([1]);
+  // const dispatch = useDispatch();
+  // useEffect(() => {
+  //   // const getProduct = async () => {
+  //   //   try {
+  //   //     const res = await fetchData.get(
+  //   //       cat ? `/product?categories=${cat}` : "/products"
+  //   //     );
+  //   //     setProducts(res.data);
+  //   //   } catch (error) {
+  //   //     console.log(error);
+  //   //   }
+  //   // };
+  //   // getProduct();
+  // }, [cat]);
+
+  // useEffect(() => {
+  //   getProducts(dispatch, searchCategorie);
+  // }, [dispatch, searchCategorie]);
+
+  // useEffect(() => {
+  //   cat &&
+  //     setFilteredProducts(
+  //       products.filter((item) =>
+  //         Object.entries(filters).every(([key, value]) =>
+  //           item[key].includes(value)
+  //         )
+  //       )
+  //     );
+  // }, [products, cat, filters]);
 
   useEffect(() => {
-    dispatch(addToProduct([...products]));
-  }, [products, dispatch]);
+    productFilters ? setProduct(productFilters) : setProduct(allProduct);
+  }, [productFilters, allProduct]);
 
   useEffect(() => {
-    cat &&
-      setFilteredProducts(
-        products.filter((item) =>
-          Object.entries(filters).every(([key, value]) =>
-            item[key].includes(value)
-          )
-        )
-      );
-  }, [products, cat, filters]);
-
-  useEffect(() => {
+    // if (productFilters) {
     if (sort === "newest") {
-      setFilteredProducts((prev) =>
-        [...prev].sort((a, b) => a.createAt - b.createAt)
+      setProductFilters((prev) =>
+        [...prev].sort((a, b) => a.createdAt - b.createdAt)
       );
     } else if (sort === "asc") {
-      setFilteredProducts((prev) =>
-        [...prev].sort((a, b) => a.price - b.price)
-      );
+      setProductFilters((prev) => [...prev].sort((a, b) => a.price - b.price));
     } else if (sort === "desc") {
-      setFilteredProducts((prev) =>
-        [...prev].sort((a, b) => b.price - a.price)
-      );
+      setProductFilters((prev) => [...prev].sort((a, b) => b.price - a.price));
     }
+    // }
+    // if (sort === "newest") {
+    //   setProduct((prev) => [...prev].sort((a, b) => a.createdAt - b.createAt));
+    // } else if (sort === "asc") {
+    //   setProduct((prev) => [...prev].sort((a, b) => a.price - b.price));
+    // } else if (sort === "desc") {
+    //   setProduct((prev) => [...prev].sort((a, b) => b.price - a.price));
+    // }
   }, [sort]);
 
-  // console.log(products);
+  console.log(productFilters);
 
   // dispatch(addToProduct([...products]));
 
   return (
     <Container>
-      {searchProduct?.length > 0
-        ? searchProduct?.map((item) => <Product item={item} key={item.id} />)
-        : Shoes?.map((item) => <Product item={item} key={item.id} />)}
+      {productFilters?.length > 0
+        ? productFilters?.map((item) => <Product item={item} key={item._id} />)
+        : product?.map((item) => <Product item={item} key={item._id} />)}
       {/* popularProduct di ganti dengan  product */}
     </Container>
   );

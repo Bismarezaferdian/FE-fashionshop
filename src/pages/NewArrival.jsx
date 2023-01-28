@@ -43,8 +43,6 @@ const NewArrival = () => {
     getProductWithCat();
   }, [allProduct]);
 
-  console.log(clotes);
-
   return (
     <Container>
       <SlideWrapp>
