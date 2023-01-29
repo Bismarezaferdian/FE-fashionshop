@@ -8,6 +8,7 @@ import Newsletter from "../components/Newsletter";
 import Products from "../components/Products";
 import Slider from "../components/Slider";
 import Vidios from "../components/Vidios";
+import Banner from "./Banner";
 import NewArrival from "./NewArrival";
 import RellsProducts from "./RellsProducts";
 import NewArrivalShoes from "./RellsProducts";
@@ -40,7 +41,8 @@ const Home = () => {
     <>
       <Announcement />
       <Navbar />
-      <Slider />
+      <Banner />
+      {/* <Slider /> */}
       <Title>New Arrival</Title>
       {/* <NewArrivalShoes /> */}
       <NewArrival />

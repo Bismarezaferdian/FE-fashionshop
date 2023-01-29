@@ -1,5 +1,4 @@
 // import { ArrowLeftOutlined, ArrowRightOutlined } from "@material-ui/icons";
-import { useState } from "react";
 import styled from "styled-components";
 import { Autoplay, Navigation, Pagination } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -7,12 +6,7 @@ import { sliderItems } from "../data";
 import { mobile } from "../responsive";
 
 const Container = styled.div`
-  padding: 20px 40px;
   display: flex;
-  /* height: 60vh; */
-  position: relative;
-  overflow: hidden;
-  ${mobile({ display: "none" })}
 `;
 
 const Image = styled.img`
@@ -88,7 +82,7 @@ const Image = styled.img`
 //   cursor: pointer;
 // `;
 
-const Slider = () => {
+const Slider = ({ item }) => {
   // const [slideIndex, setSlideIndex] = useState(0);
   // const handleClick = (direction) => {
   //   if (direction === "left") {
@@ -97,27 +91,11 @@ const Slider = () => {
   //     setSlideIndex(slideIndex < sliderItems.length - 1 ? slideIndex + 1 : 0);
   //   }
   // };
+  // console.log(item);
 
   return (
     <Container>
-      <Swiper
-        pagination={{
-          clickable: true,
-        }}
-        autoplay={{
-          delay: 3000,
-        }}
-        loop={true}
-        // autoplay={true}
-        modules={[Pagination, Navigation, Autoplay]}
-        className="mySwiper"
-      >
-        {sliderItems.map((item, i) => (
-          <SwiperSlide key={i}>
-            <Image src={item.img} />
-          </SwiperSlide>
-        ))}
-      </Swiper>
+      <Image src={item} />
     </Container>
   );
 };

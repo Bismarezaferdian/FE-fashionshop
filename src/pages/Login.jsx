@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { login } from "../redux/apiCall";
 import { mobile } from "../responsive";
+import { fetchData } from "../useFetch";
 
 const Container = styled.div`
   width: 100vw;
@@ -64,17 +65,19 @@ const Link = styled.a`
 
 const Login = () => {
   const navigate = useNavigate();
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
-  const { isFetching, error } = useSelector((state) => state.user);
-  console.log(isFetching, error);
+  // const { isFetching, error } = useSelector((state) => state.user);
 
+  const user = { email, password };
   const handleClick = (e) => {
     e.preventDefault();
-    login(dispatch, { username, password });
-    navigate("/");
+    login(dispatch, { email, password });
+    // const res = await fetchData.post("/auth/login", { email, password });
+    // console.log(res.data);
   };
+  // console.log(email, password);
 
   return (
     <Container>
@@ -83,7 +86,7 @@ const Login = () => {
         <Form>
           <Input
             placeholder="username"
-            onChange={(e) => setUsername(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
           />
           <Input
             placeholder="password"

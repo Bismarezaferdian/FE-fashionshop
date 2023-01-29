@@ -30,6 +30,7 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
   background-color: #ffffff;
   position: relative;
 
@@ -37,6 +38,21 @@ const Container = styled.div`
     opacity: 1;
     /* border-radius: 50%; */
   }
+`;
+
+export const Title = styled.p`
+  font-size: 14px;
+  text-transform: uppercase;
+  font-weight: 600;
+  align-items: center;
+  letter-spacing: 2px;
+`;
+
+export const Price = styled.p`
+  font-size: 14px;
+  letter-spacing: 2px;
+  font-weight: 500;
+  color: #5d697a;
 `;
 
 const Circle = styled.div`
@@ -73,6 +89,8 @@ const Product = ({ item }) => {
     <Container>
       <Circle />
       <Image src={item.imgDisplay} />
+      <Title>{item.title}</Title>
+      <Price>{item.price}</Price>
       <Info>
         <Icon>
           <ShoppingCartOutlined />

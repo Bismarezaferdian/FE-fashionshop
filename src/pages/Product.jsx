@@ -8,10 +8,13 @@ import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import Newsletter from "../components/Newsletter";
-import { getProducts } from "../redux/apiCall";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination, Navigation } from "swiper";
+
 import { addProduct } from "../redux/cartRedux";
 import { mobile } from "../responsive";
 import { fetchData } from "../useFetch";
+import Sliders from "../components/Slider";
 
 const Container = styled.div``;
 
@@ -23,6 +26,14 @@ const Wrapper = styled.div`
 
 const ImgContainer = styled.div`
   flex: 1;
+  padding: 20px 40px;
+  display: flex;
+  /* max-height: 60vh; */
+  /* width: 300px;
+  height: 400px; */
+  position: relative;
+  overflow: hidden;
+  ${mobile({ display: "none" })}
 `;
 
 const Image = styled.img`
@@ -55,6 +66,8 @@ const FilterContainer = styled.div`
   width: 50%;
   margin: 30px 0px;
   display: flex;
+  flex-direction: column;
+  gap: 20px;
   justify-content: space-between;
   ${mobile({ width: "100%" })}
 `;
@@ -69,21 +82,37 @@ const FilterTitle = styled.span`
   font-weight: 200;
 `;
 
-const FilterColor = styled.div`
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background-color: ${(props) => props.color};
-  margin: 0px 5px;
+const FilterColor = styled.select`
+  /* width: 20px;
+  height: 20px; */
+  /* border-radius: 50%; */
+
+  /* background-color: ${(props) => props.color}; */
+  margin-left: 10px;
+
   cursor: pointer;
 `;
 
-const FilterSize = styled.select`
+const FilterSize = styled.div`
+  display: flex;
   margin-left: 10px;
-  padding: 5px;
+  /* padding: 5px; */
+  gap: 20px;
 `;
 
-const FilterSizeOption = styled.option``;
+const FilterOptionColor = styled.option`
+  padding: 20px;
+  display: flex;
+  border: 1px solid #000000;
+  padding: 10px;
+  white-space: nowrap;
+`;
+const FilterOptionSize = styled.button`
+  display: flex;
+  border: 1px solid #000000;
+  padding: 10px;
+  white-space: nowrap;
+`;
 
 const AddContainer = styled.div`
   width: 50%;
@@ -125,28 +154,26 @@ const Button = styled.button`
 const Product = () => {
   const location = useLocation();
   const id = location.pathname.split("/")[2];
-
   const [product, setProduct] = useState([]);
-  // const [error, setError] = useState();
   const [size, setSize] = useState("");
   const [color, setColor] = useState("");
   const [quantity, setQuantity] = useState(1);
   const dispatch = useDispatch();
 
-  // console.log(color);
+  console.log(color, size);
   useEffect(() => {
-    dispatch(getProducts());
-    // const getProductItem = async () => {
-    //   try {
-    //     const res = await fetchData.get(`/product/find/${id}`);
-    //     setProduct(res.data);
-    //   } catch (error) {
-    //     // setError(error);
-    //     console.log(error);
-    //   }
-    // };
-    // getProductItem();
-  }, [dispatch]);
+    // dispatch(getProducts());
+    const getProductItem = async () => {
+      try {
+        const res = await fetchData.get(`/products/find/${id}`);
+        setProduct(res.data);
+      } catch (error) {
+        // setError(error);
+        console.log(error);
+      }
+    };
+    getProductItem();
+  }, [id]);
 
   const handleQty = (type) => {
     if (type === "desc") {
@@ -156,45 +183,52 @@ const Product = () => {
     }
   };
 
-  const addToCart = () => {
-    dispatch(addProduct({ ...product }));
-  };
+  // console.log(product);
 
-  // console.log(product, color, size);
+  const addToCart = () => {
+    console.log({ ...product, size, color });
+  };
   return (
     <Container>
       <Navbar />
       <Announcement />
       <Wrapper>
         <ImgContainer>
-          <Image src="https://i.ibb.co/S6qMxwr/jean.jpg" />
+          <Swiper
+            pagination={{
+              type: "fraction",
+            }}
+            navigation={true}
+            modules={[Pagination, Navigation]}
+            className="mySwiper"
+          >
+            {product.imgDetail?.map((item) => (
+              <SwiperSlide>
+                <Sliders item={item} />
+              </SwiperSlide>
+            ))}
+          </Swiper>
         </ImgContainer>
         <InfoContainer>
-          <Title>Denim Jumpsuit</Title>
-          <Desc>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-            venenatis, dolor in finibus malesuada, lectus ipsum porta nunc, at
-            iaculis arcu nisi sed mauris. Nulla fermentum vestibulum ex, eget
-            tristique tortor pretium ut. Curabitur elit justo, consequat id
-            condimentum ac, volutpat ornare.
-          </Desc>
-          <Price>$ 20</Price>
+          <Title>{product.title}</Title>
+          <Desc>{product.desc}</Desc>
+          <Price>{product.price}</Price>
           <FilterContainer>
             <Filter>
               <FilterTitle>Color</FilterTitle>
               {product.color?.map((colors) => (
-                <FilterColor color={colors} onClick={() => setColor(colors)} />
+                <FilterColor onClick={(e) => setColor(e.target.value)}>
+                  <FilterOptionColor>{colors}</FilterOptionColor>
+                </FilterColor>
               ))}
             </Filter>
             <Filter>
               <FilterTitle>Size</FilterTitle>
-              <FilterSize onChange={(e) => setSize(e.target.value)}>
-                <FilterSizeOption>XS</FilterSizeOption>
-                <FilterSizeOption>S</FilterSizeOption>
-                <FilterSizeOption>M</FilterSizeOption>
-                <FilterSizeOption>L</FilterSizeOption>
-                <FilterSizeOption>XL</FilterSizeOption>
-              </FilterSize>
+              {product.size?.map((item) => (
+                <FilterSize onClick={(e) => setSize(e.target.value)}>
+                  <FilterOptionSize value={item}>{item}</FilterOptionSize>
+                </FilterSize>
+              ))}
             </Filter>
           </FilterContainer>
           <AddContainer>

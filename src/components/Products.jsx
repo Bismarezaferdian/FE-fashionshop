@@ -1,12 +1,7 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
-import { Shoes } from "../data";
-import { getProducts } from "../redux/apiCall";
-import { addToProduct, getProductFailure } from "../redux/productRedux";
-import { fetchData } from "../useFetch";
 import Product from "./Product";
 
 const Container = styled.div`
@@ -43,44 +38,52 @@ const Products = ({ cat, filters, sort }) => {
   // }, [dispatch, searchCategorie]);
 
   // useEffect(() => {
-  //   cat &&
-  //     setFilteredProducts(
-  //       products.filter((item) =>
-  //         Object.entries(filters).every(([key, value]) =>
-  //           item[key].includes(value)
-  //         )
+  // filters &&
+  //   setProductFilters(
+  //     allProduct.filter((item) =>
+  //       Object.entries(filters).every(([key, value]) =>
+  //         item[key].includes(value)
   //       )
-  //     );
-  // }, [products, cat, filters]);
+  //     )
+  //   );
+  // }, [allProduct, filters, productFilters]);
+
+  // console.log(sort);
+  useEffect(() => {
+    if (state) {
+      if (sort === "newest") {
+        setProductFilters((prev) =>
+          [...prev].sort(
+            (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
+          )
+        );
+      } else if (sort === "asc") {
+        setProductFilters((prev) =>
+          [...prev].sort((a, b) => a.price - b.price)
+        );
+      } else {
+        setProductFilters((prev) =>
+          [...prev].sort((a, b) => b.price - a.price)
+        );
+      }
+    } else {
+      if (sort === "newest") {
+        setProduct((prev) =>
+          [...prev].sort(
+            (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
+          )
+        );
+      } else if (sort === "asc") {
+        setProduct((prev) => [...prev].sort((a, b) => a.price - b.price));
+      } else if (sort === "desc") {
+        setProduct((prev) => [...prev].sort((a, b) => b.price - a.price));
+      }
+    }
+  }, [sort, state]);
 
   useEffect(() => {
     productFilters ? setProduct(productFilters) : setProduct(allProduct);
   }, [productFilters, allProduct]);
-
-  useEffect(() => {
-    // if (productFilters) {
-    if (sort === "newest") {
-      setProductFilters((prev) =>
-        [...prev].sort((a, b) => a.createdAt - b.createdAt)
-      );
-    } else if (sort === "asc") {
-      setProductFilters((prev) => [...prev].sort((a, b) => a.price - b.price));
-    } else if (sort === "desc") {
-      setProductFilters((prev) => [...prev].sort((a, b) => b.price - a.price));
-    }
-    // }
-    // if (sort === "newest") {
-    //   setProduct((prev) => [...prev].sort((a, b) => a.createdAt - b.createAt));
-    // } else if (sort === "asc") {
-    //   setProduct((prev) => [...prev].sort((a, b) => a.price - b.price));
-    // } else if (sort === "desc") {
-    //   setProduct((prev) => [...prev].sort((a, b) => b.price - a.price));
-    // }
-  }, [sort]);
-
-  console.log(productFilters);
-
-  // dispatch(addToProduct([...products]));
 
   return (
     <Container>

@@ -1,5 +1,11 @@
 import { Badge } from "@material-ui/core";
-import { Search, ShoppingCartOutlined } from "@material-ui/icons";
+import {
+  AccountBalanceRounded,
+  AccountCircleOutlined,
+  AccountCircleRounded,
+  Search,
+  ShoppingCartOutlined,
+} from "@material-ui/icons";
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -68,6 +74,20 @@ const Right = styled.div`
   ${mobile({ flex: 2, justifyContent: "center" })}
 `;
 
+export const UserIcon = styled.div`
+  display: flex;
+  gap: 8px;
+`;
+
+export const IconUser = styled(AccountCircleRounded)`
+  color: #ffffff;
+`;
+
+export const Name = styled.h1`
+  font-size: 18px;
+  color: #ffffff;
+`;
+
 const MenuItem = styled.div`
   font-size: 14px;
   cursor: pointer;
@@ -84,8 +104,9 @@ const Navbar = () => {
 
   const qty = useSelector((state) => state.cart.quantity);
   const allProduct = useSelector((state) => state.product.products);
+  const user = useSelector((state) => state.user.currentUser);
   // console.log(allProduct);
-
+  console.log(user);
   useEffect(() => {
     setProductfilters(
       allProduct.filter((item) =>
@@ -122,11 +143,23 @@ const Navbar = () => {
           </Logo>
           {/* </Link> */}
         </Center>
+
         <Right>
-          <MenuItem>REGISTER</MenuItem>
-          <Link to={"/login"}>
-            <MenuItem>SIGN IN</MenuItem>
-          </Link>
+          {user ? (
+            <div>
+              <UserIcon>
+                <IconUser />
+                <Name>{user.firstname}</Name>
+              </UserIcon>
+            </div>
+          ) : (
+            <>
+              <MenuItem>REGISTER</MenuItem>
+              <Link to={"/login"}>
+                <MenuItem>SIGN IN</MenuItem>
+              </Link>
+            </>
+          )}
           <MenuItem>
             <Link to={"/cart"}>
               <Badge badgeContent={qty} color="primary">
