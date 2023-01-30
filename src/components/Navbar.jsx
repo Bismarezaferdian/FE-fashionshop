@@ -106,7 +106,6 @@ const Navbar = () => {
   const allProduct = useSelector((state) => state.product.products);
   const user = useSelector((state) => state.user.currentUser);
   // console.log(allProduct);
-  console.log(user);
   useEffect(() => {
     setProductfilters(
       allProduct.filter((item) =>

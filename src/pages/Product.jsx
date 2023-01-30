@@ -109,9 +109,18 @@ const FilterOptionColor = styled.option`
 `;
 const FilterOptionSize = styled.button`
   display: flex;
-  border: 1px solid #000000;
+  border: ${(props) =>
+    props.clicked ? "1px solid #000000" : "1px solid #e8e2e2"};
   padding: 10px;
+  color: ${(props) => (props.clicked ? "#000000" : "#afb9c8")};
+  background-color: ${(props) => (props.clicked ? "#d6e4e5" : " #ffffff")};
   white-space: nowrap;
+  cursor: pointer;
+
+  /* &.active {
+    color: 
+    background-color: #d6e4e5;
+  } */
 `;
 
 const AddContainer = styled.div`
@@ -155,12 +164,14 @@ const Product = () => {
   const location = useLocation();
   const id = location.pathname.split("/")[2];
   const [product, setProduct] = useState([]);
-  const [size, setSize] = useState("");
-  const [color, setColor] = useState("");
+  const [size, setSize] = useState(undefined);
+  const [color, setColor] = useState(undefined);
   const [quantity, setQuantity] = useState(1);
+  const [clicked, setClicked] = useState(false);
+  const [errorSize, setErrorSize] = useState(false);
+  const [errorColor, setErrorColor] = useState(false);
   const dispatch = useDispatch();
 
-  console.log(color, size);
   useEffect(() => {
     // dispatch(getProducts());
     const getProductItem = async () => {
@@ -183,11 +194,50 @@ const Product = () => {
     }
   };
 
-  // console.log(product);
+  const { desc, imgDetail, categories, ...productChart } = product;
+
+  const handleClick = (item) => {
+    //membuat object baru
+    const newClicked = { ...clicked };
+    Object.keys(newClicked).forEach((key) => {
+      //jika key tidak sama dengan item set semua ke false
+      //kondisi 1
+      //misal m= false saat di klik selain m false semua (m masih false)
+      //kondisi 2
+      //misal m = true saal di klik selain m false semua (m masih true)
+      if (key !== item) newClicked[key] = false;
+    });
+    //kondisi 1
+    //m false di isi dengan true
+    //kondisi 2
+    //m true di isi dengan false
+    newClicked[item] = !newClicked[item];
+    setClicked(newClicked);
+  };
+
+  const validate = () => {
+    if (size === undefined) setErrorSize(true);
+    if (color === undefined) setErrorColor(true);
+    // setErrorSize(size === undefined);
+    // setErrorColor(color === undefined);
+  };
+
+  useEffect(() => {
+    if (size) setErrorSize(false);
+    if (color) setErrorColor(false);
+  }, [size, color]);
 
   const addToCart = () => {
-    console.log({ ...product, size, color });
+    if (!size) {
+      validate();
+    } else {
+      console.log("berhasil");
+    }
+    // console.log({ ...productChart, size, color, quantity });
   };
+
+  console.log(color);
+  console.log(size);
   return (
     <Container>
       <Navbar />
@@ -222,14 +272,27 @@ const Product = () => {
                 </FilterColor>
               ))}
             </Filter>
+            {errorColor ? (
+              <span style={{ color: "red " }}>silahkan pilih warna</span>
+            ) : null}
             <Filter>
               <FilterTitle>Size</FilterTitle>
               {product.size?.map((item) => (
                 <FilterSize onClick={(e) => setSize(e.target.value)}>
-                  <FilterOptionSize value={item}>{item}</FilterOptionSize>
+                  <FilterOptionSize
+                    // key={item}
+                    clicked={clicked[item]}
+                    onClick={() => handleClick(item)}
+                    value={item}
+                  >
+                    {item}
+                  </FilterOptionSize>
                 </FilterSize>
               ))}
             </Filter>
+            {errorSize ? (
+              <span style={{ color: "red " }}>silahkan pilih ukuran</span>
+            ) : null}
           </FilterContainer>
           <AddContainer>
             <AmountContainer>
