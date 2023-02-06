@@ -9,9 +9,10 @@ import {
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { revertAll } from "../redux/action";
 import { mobile } from "../responsive";
 
 const Container = styled.div`
@@ -100,12 +101,12 @@ const MenuItem = styled.div`
 const Navbar = () => {
   const [sortProduct, setSortProduct] = useState("");
   const [productFilters, setProductfilters] = useState([]);
-  const navigate = useNavigate();
-
   const qty = useSelector((state) => state.cart.quantity);
   const allProduct = useSelector((state) => state.product.products);
   const user = useSelector((state) => state.user.currentUser);
-  // console.log(allProduct);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   useEffect(() => {
     setProductfilters(
       allProduct.filter((item) =>
@@ -116,8 +117,12 @@ const Navbar = () => {
 
   const handleClick = (e) => {
     e.preventDefault();
-    // dispatch(addToFilter(productFilters));
     navigate("/products", { state: productFilters });
+  };
+
+  const handleLogout = (e) => {
+    e.preventDefault();
+    dispatch(revertAll());
   };
   return (
     <Container>
@@ -159,6 +164,8 @@ const Navbar = () => {
               </Link>
             </>
           )}
+          <button onClick={handleLogout}>logout</button>
+
           <MenuItem>
             <Link to={"/cart"}>
               <Badge badgeContent={qty} color="primary">

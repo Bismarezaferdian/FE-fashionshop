@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
+import { getProducts } from "../redux/apiCall";
 import Product from "./Product";
 
 const Container = styled.div`
@@ -12,30 +13,18 @@ const Container = styled.div`
 `;
 
 const Products = ({ cat, filters, sort }) => {
+  //menerima state kiriman dari input searc from navbar and search from category
   const { state } = useLocation();
   const [productFilters, setProductFilters] = useState(state);
   const allProduct = useSelector((state) => state.product.products);
   const [product, setProduct] = useState(allProduct);
   // const [products, setProducts] = useState([]);
   // const [filteredProducts, setFilteredProducts] = useState([1]);
-  // const dispatch = useDispatch();
-  // useEffect(() => {
-  //   // const getProduct = async () => {
-  //   //   try {
-  //   //     const res = await fetchData.get(
-  //   //       cat ? `/product?categories=${cat}` : "/products"
-  //   //     );
-  //   //     setProducts(res.data);
-  //   //   } catch (error) {
-  //   //     console.log(error);
-  //   //   }
-  //   // };
-  //   // getProduct();
-  // }, [cat]);
+  const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   getProducts(dispatch, searchCategorie);
-  // }, [dispatch, searchCategorie]);
+  useEffect(() => {
+    getProducts(dispatch);
+  }, [dispatch]);
 
   // useEffect(() => {
   // filters &&
@@ -48,7 +37,6 @@ const Products = ({ cat, filters, sort }) => {
   //   );
   // }, [allProduct, filters, productFilters]);
 
-  // console.log(sort);
   useEffect(() => {
     if (state) {
       if (sort === "newest") {

@@ -1,7 +1,7 @@
 import { Add, Remove } from "@material-ui/icons";
 import { useState } from "react";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import Announcement from "../components/Announcement";
@@ -11,10 +11,11 @@ import Newsletter from "../components/Newsletter";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Navigation } from "swiper";
 
-import { addProduct } from "../redux/cartRedux";
+import { addToCart } from "../redux/cartRedux";
 import { mobile } from "../responsive";
 import { fetchData } from "../useFetch";
 import Sliders from "../components/Slider";
+import { addCart } from "../redux/apiCall";
 
 const Container = styled.div``;
 
@@ -163,13 +164,16 @@ const Button = styled.button`
 const Product = () => {
   const location = useLocation();
   const id = location.pathname.split("/")[2];
-  const [product, setProduct] = useState([]);
+  const [product, setProduct] = useState({});
   const [size, setSize] = useState(undefined);
   const [color, setColor] = useState(undefined);
   const [quantity, setQuantity] = useState(1);
   const [clicked, setClicked] = useState(false);
   const [errorSize, setErrorSize] = useState(false);
   const [errorColor, setErrorColor] = useState(false);
+  const { _id } = useSelector((state) => state.user.currentUser);
+  const cart = useSelector((state) => state.cart.products);
+  const userId = _id;
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -195,6 +199,9 @@ const Product = () => {
   };
 
   const { desc, imgDetail, categories, ...productChart } = product;
+  const products = { ...productChart, size, color, quantity };
+
+  // console.log(cart, products);
 
   const handleClick = (item) => {
     //membuat object baru
@@ -218,8 +225,6 @@ const Product = () => {
   const validate = () => {
     if (size === undefined) setErrorSize(true);
     if (color === undefined) setErrorColor(true);
-    // setErrorSize(size === undefined);
-    // setErrorColor(color === undefined);
   };
 
   useEffect(() => {
@@ -227,17 +232,26 @@ const Product = () => {
     if (color) setErrorColor(false);
   }, [size, color]);
 
-  const addToCart = () => {
-    if (!size) {
+  // console.log(productChart);
+  const handleAddToChart = () => {
+    const inCart = cart.find(
+      (cart) =>
+        cart._id === product._id &&
+        cart.color === products.color &&
+        cart.size === products.size
+    );
+    if (!size || !color) {
       validate();
     } else {
-      console.log("berhasil");
+      // if (inCart) {
+      //   console.log(inCart);
+      // dispatch(addToCart({ userId }));
+      // addCart(dispatch(_id));
+      addCart(dispatch, { userId, products });
+      // console.log({ ...productChart, size, color, quantity });
     }
-    // console.log({ ...productChart, size, color, quantity });
   };
 
-  console.log(color);
-  console.log(size);
   return (
     <Container>
       <Navbar />
@@ -300,7 +314,7 @@ const Product = () => {
               <Amount>{quantity}</Amount>
               <Add onClick={() => handleQty("asc")} />
             </AmountContainer>
-            <Button onClick={addToCart}>ADD TO CART</Button>
+            <Button onClick={handleAddToChart}>ADD TO CART</Button>
           </AddContainer>
         </InfoContainer>
       </Wrapper>
