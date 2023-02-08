@@ -2,9 +2,9 @@ import { createSlice, current } from "@reduxjs/toolkit";
 import { revertAll } from "./action";
 
 const initialState = {
-  // userId: null,
+  userId: null,
   products: [],
-  // quantity: 0,
+  quantity: 0,
   total: 0,
   error: false,
   isFetch: false,

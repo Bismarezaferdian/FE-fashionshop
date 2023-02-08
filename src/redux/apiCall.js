@@ -48,12 +48,27 @@ export const getProducts = async (dispatch, cat) => {
   }
 };
 
-export const addCart = async (dispatch, data) => {
+export const getCart = async (dispatch, id) => {
+  // dispatch(getProductStart());
+  // console.log(id);
+  try {
+    const res = await fetchData.get("/carts", { userId: id });
+    console.log(res.data);
+  } catch (error) {
+    // dispatch(getProductFailure());
+  }
+};
+
+export const addCart = async (dispatch, userId, products) => {
   // console.log(data);
   dispatch(addCartStart());
   try {
-    const res = await fetchData.post("/carts", data);
-    dispatch(addToCart(res.data));
+    const res = await fetchData.post("/carts", {
+      userId: userId,
+      products: products,
+    });
+    console.log(res);
+    // dispatch(addToCart(res.data));
   } catch (error) {
     dispatch(addCartFailure());
   }

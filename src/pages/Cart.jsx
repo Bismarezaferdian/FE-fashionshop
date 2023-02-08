@@ -6,7 +6,7 @@ import styled, { createGlobalStyle } from "styled-components";
 import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
-import { updatecart } from "../redux/apiCall";
+import { getCart, updatecart } from "../redux/apiCall";
 import {
   addQty,
   addToCart,
@@ -15,6 +15,7 @@ import {
   removeQty,
 } from "../redux/cartRedux";
 import { mobile } from "../responsive";
+import { fetchData } from "../useFetch";
 
 const Container = styled.div``;
 
@@ -189,7 +190,27 @@ const Cart = () => {
   const cart = useSelector((state) => state.cart.products);
   const [quantity, setQuantity] = useState(cart.quantity);
   const [idProduct, setIdProduct] = useState(null);
+  const { _id } = useSelector((state) => state.user.currentUser);
+  const userId = _id;
   const dispatch = useDispatch();
+
+  console.log(userId);
+
+  useEffect(() => {
+    const fetch = async () => {
+      const res = await fetchData.get("/carts", {
+           userId: userId,
+          }
+      });
+      console.log(res.data);
+    };
+
+    return fetch();
+  }, [userId]);
+
+  // useEffect(() => {
+  //   getCart(dispatch, userId);
+  // }, [dispatch, userId]);
 
   const handleQtyPlus = (id) => {
     setQuantity(quantity + 1);
@@ -200,8 +221,6 @@ const Cart = () => {
     setQuantity(quantity - 1);
     setIdProduct(id);
   };
-  const data = cart.map((item) => item);
-  const item= data.map((item) => item.products))
 
   // useEffect(() => {
   //   updatecart(dispatch, { idProduct }, { quantity });
@@ -233,7 +252,7 @@ const Cart = () => {
         </Top>
         <Bottom>
           <Info>
-            {/* {cart.products.map((item, i) => (
+            {/* {dataProduct.map((item, i) => (
               <Product key={i}>
                 <ProductDetail>
                   <Image src={item.imgDisplay} />

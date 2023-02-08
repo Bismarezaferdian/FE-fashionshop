@@ -172,8 +172,8 @@ const Product = () => {
   const [errorSize, setErrorSize] = useState(false);
   const [errorColor, setErrorColor] = useState(false);
   const { _id } = useSelector((state) => state.user.currentUser);
-  const cart = useSelector((state) => state.cart.products);
   const userId = _id;
+  const cart = useSelector((state) => state.cart.products);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -201,7 +201,7 @@ const Product = () => {
   const { desc, imgDetail, categories, ...productChart } = product;
   const products = { ...productChart, size, color, quantity };
 
-  // console.log(cart, products);
+  // console.log(products);
 
   const handleClick = (item) => {
     //membuat object baru
@@ -234,12 +234,12 @@ const Product = () => {
 
   // console.log(productChart);
   const handleAddToChart = () => {
-    const inCart = cart.find(
-      (cart) =>
-        cart._id === product._id &&
-        cart.color === products.color &&
-        cart.size === products.size
-    );
+    // const inCart = cart.find(
+    //   (cart) =>
+    //     cart._id === product._id &&
+    //     cart.color === products.color &&
+    //     cart.size === products.size
+    // );
     if (!size || !color) {
       validate();
     } else {
@@ -247,7 +247,7 @@ const Product = () => {
       //   console.log(inCart);
       // dispatch(addToCart({ userId }));
       // addCart(dispatch(_id));
-      addCart(dispatch, { userId, products });
+      addCart(dispatch, userId, products);
       // console.log({ ...productChart, size, color, quantity });
     }
   };
