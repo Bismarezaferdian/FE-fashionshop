@@ -101,7 +101,7 @@ const MenuItem = styled.div`
 const Navbar = () => {
   const [sortProduct, setSortProduct] = useState("");
   const [productFilters, setProductfilters] = useState([]);
-  const qty = useSelector((state) => state.cart.quantity);
+  const qty = useSelector((state) => state.cart.qty);
   const allProduct = useSelector((state) => state.product.products);
   const user = useSelector((state) => state.user.currentUser);
   const dispatch = useDispatch();

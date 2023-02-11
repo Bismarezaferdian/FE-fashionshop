@@ -1,4 +1,5 @@
 import { Add, Remove } from "@material-ui/icons";
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
@@ -6,7 +7,7 @@ import styled, { createGlobalStyle } from "styled-components";
 import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
-import { getCart, updatecart } from "../redux/apiCall";
+import { deleteProductCart, getCart, updatecart } from "../redux/apiCall";
 import {
   addQty,
   addToCart,
@@ -187,55 +188,83 @@ const Button = styled.button`
 `;
 
 const Cart = () => {
-  const cart = useSelector((state) => state.cart.products);
-  const [quantity, setQuantity] = useState(cart.quantity);
-  const [idProduct, setIdProduct] = useState(null);
+  // const [idProduct, setIdProduct] = useState(null);
+  const cart = useSelector((state) => state.cart);
   const { _id } = useSelector((state) => state.user.currentUser);
   const userId = _id;
   const dispatch = useDispatch();
 
-  console.log(userId);
+  //version chat gpt
+  // const [quantityUpdates, setQuantityUpdates] = useState({});
+
+  // console.log(quantityUpdates);
+  // useEffect(() => {
+  //   getCart(userId, dispatch);
+  // }, [userId, dispatch]);
+
+  // useEffect(() => {
+  //   if (Object.keys(quantityUpdates).length) {
+  //     const update = {};
+  //     Object.entries(quantityUpdates).forEach(([id, qty]) => {
+  //       update[id] = qty;
+  //     });
+  //     updatecart(userId, {
+  //       products: update,
+  //     });
+  //     setQuantityUpdates({});
+  //   }
+  // }, [quantityUpdates, userId]);
+
+  // const handleQty = (item, action) => {
+  //   setQuantityUpdates((prevState) => {
+  //     const updates = { ...prevState };
+  //     if (action === "plus") {
+  //       updates[item._id] = (updates[item._id] || 0) + 1;
+  //       dispatch(addQty(item));
+  //     } else if (action === "minus") {
+  //       updates[item._id] = (updates[item._id] || 0) - 1;
+  //       dispatch(removeQty(item));
+  //     }
+  //     return updates;
+  //   });
+  // };
+
+  ///
 
   useEffect(() => {
-    const fetch = async () => {
-      const res = await fetchData.get("/carts", {
-           userId: userId,
-          }
+    getCart(userId, dispatch);
+  }, [userId, dispatch]);
+
+  // const debouncedHandleQty = useCallback(
+  //   debounce((item, action) => {
+  //     if (action === "plus") {
+  //       updatecart(userId, {
+  //         products: item,
+  //       });
+  //       dispatch(addQty(item));
+  //     } else if (action === "minus") {
+  //       deleteProductCart(userId, {
+  //         products: item,
+  //       });
+  //       dispatch(removeQty(item));
+  //     }
+  //   }, 500),
+  //   []
+  // );
+
+  const handleQty = async (item, action) => {
+    if (action === "plus") {
+      await updatecart(userId, {
+        products: item,
       });
-      console.log(res.data);
-    };
-
-    return fetch();
-  }, [userId]);
-
-  // useEffect(() => {
-  //   getCart(dispatch, userId);
-  // }, [dispatch, userId]);
-
-  const handleQtyPlus = (id) => {
-    setQuantity(quantity + 1);
-    setIdProduct(id);
+      dispatch(addQty(item));
+    } else if (action === "minus") {
+      await deleteProductCart(userId, {
+        products: item,
+      });
+      dispatch(removeQty(item));
+    }
   };
-
-  const handleQtyMinus = (id) => {
-    setQuantity(quantity - 1);
-    setIdProduct(id);
-  };
-
-  // useEffect(() => {
-  //   updatecart(dispatch, { idProduct }, { quantity });
-  // }, [quantity, idProduct, dispatch]);
-  // const confirm = (id, size, color) => {
-  //   if (window.confirm("Are you sure you want to delete this item?")) {
-  //     dispatch(
-  //       removeChart({
-  //         id: id,
-  //         size: size,
-  //         color: color,
-  //       })
-  //     );
-  //   }
-  // };
   return (
     <Container>
       <Navbar />
@@ -252,8 +281,8 @@ const Cart = () => {
         </Top>
         <Bottom>
           <Info>
-            {/* {dataProduct.map((item, i) => (
-              <Product key={i}>
+            {cart.products.map((item, i) => (
+              <Product>
                 <ProductDetail>
                   <Image src={item.imgDisplay} />
                   <Details>
@@ -272,43 +301,18 @@ const Cart = () => {
                 </ProductDetail>
                 <PriceDetail>
                   <ProductAmountContainer>
-                    <Btn
-                      // onClick={() =>
-                      //   dispatch(
-                      //     addQty({
-                      //       id: item._id,
-                      //       size: item.size,
-                      //       color: item.color,
-                      //     })
-                      //   )
-                      // }
-                      onClick={() => handleQtyPlus(item._id)}
-                    >
+                    <Btn id="plus" onClick={() => handleQty(item, "plus")}>
                       <Add />
                     </Btn>
                     <ProductAmount>{item.quantity}</ProductAmount>
-                    <Btn
-                      // onClick={() =>
-                      //   item.quantity > 1
-                      //     ? dispatch(
-                      //         removeQty({
-                      //           id: item._id,
-                      //           size: item.size,
-                      //           color: item.color,
-                      //         })
-                      //       )
-                      //     : confirm(item._id, item.size, item.color)
-                      // }
-
-                      onClick={() => handleQtyMinus(item._id)}
-                    >
+                    <Btn onClick={() => handleQty(item, "minus")}>
                       {item.quantity === 1 ? "delete" : <Remove />}
                     </Btn>
                   </ProductAmountContainer>
                   <ProductPrice>{item.price}</ProductPrice>
                 </PriceDetail>
               </Product>
-            ))} */}
+            ))}
 
             <Hr />
           </Info>

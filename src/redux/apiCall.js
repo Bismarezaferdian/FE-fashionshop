@@ -11,7 +11,8 @@ import {
   getProductStart,
   getProductSucces,
 } from "./productRedux";
-import { addCartFailure, addCartStart, addToCart } from "./cartRedux";
+import { addCartFailure, addCartStart, addQty, addToCart } from "./cartRedux";
+import { CallMerge } from "@material-ui/icons";
 
 export const login = async (dispatch, user) => {
   console.log(user);
@@ -48,38 +49,40 @@ export const getProducts = async (dispatch, cat) => {
   }
 };
 
-export const getCart = async (dispatch, id) => {
-  // dispatch(getProductStart());
-  // console.log(id);
+// export const addCart = async (dispatch, userId, products) => {
+//   console.log();
+//   dispatch(addCartStart());
+//   try {
+//     // const res = await fetchData.post("/carts", {
+//     //   userId: userId,
+//     //   products: products,
+//     // });
+//     // console.log(res);
+//     dispatch(addToCart(userId, { products }));
+//   } catch (error) {
+//     dispatch(addCartFailure());
+//   }
+// };
+export const getCart = async (userId, dispatch) => {
+  console.log(userId);
   try {
-    const res = await fetchData.get("/carts", { userId: id });
-    console.log(res.data);
-  } catch (error) {
-    // dispatch(getProductFailure());
-  }
+    const res = await fetchData.get(`/carts/${userId}`);
+    dispatch(addToCart(res.data, userId));
+  } catch (error) {}
 };
 
-export const addCart = async (dispatch, userId, products) => {
-  // console.log(data);
-  dispatch(addCartStart());
-  try {
-    const res = await fetchData.post("/carts", {
-      userId: userId,
-      products: products,
-    });
-    console.log(res);
-    // dispatch(addToCart(res.data));
-  } catch (error) {
-    dispatch(addCartFailure());
-  }
-};
-
-export const updatecart = async (dispatch, id, data) => {
-  console.log(data, id);
+export const updatecart = async (userId, data) => {
+  // console.log(userId, data);
   // dispatch(updateQtyStart())
   try {
-    const res = await fetchData.put(`/carts/${id}`, data);
-    console.log(res.data);
+    await fetchData.post(`/carts/${userId}`, data);
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const deleteProductCart = async (userId, data) => {
+  try {
+    await fetchData.post(`/carts/deleteProductCart/${userId}`, data);
   } catch (error) {
     console.log(error);
   }

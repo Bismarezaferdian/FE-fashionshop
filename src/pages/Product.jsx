@@ -1,4 +1,4 @@
-import { Add, Remove } from "@material-ui/icons";
+import { Add, CallMerge, Remove } from "@material-ui/icons";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,7 +15,7 @@ import { addToCart } from "../redux/cartRedux";
 import { mobile } from "../responsive";
 import { fetchData } from "../useFetch";
 import Sliders from "../components/Slider";
-import { addCart } from "../redux/apiCall";
+import { addCart, updatecart } from "../redux/apiCall";
 
 const Container = styled.div``;
 
@@ -172,8 +172,8 @@ const Product = () => {
   const [errorSize, setErrorSize] = useState(false);
   const [errorColor, setErrorColor] = useState(false);
   const { _id } = useSelector((state) => state.user.currentUser);
-  const userId = _id;
   const cart = useSelector((state) => state.cart.products);
+  const userId = _id;
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -202,7 +202,7 @@ const Product = () => {
   const products = { ...productChart, size, color, quantity };
 
   // console.log(products);
-
+  //
   const handleClick = (item) => {
     //membuat object baru
     const newClicked = { ...clicked };
@@ -243,18 +243,13 @@ const Product = () => {
     if (!size || !color) {
       validate();
     } else {
-      // if (inCart) {
-      //   console.log(inCart);
-      // dispatch(addToCart({ userId }));
-      // addCart(dispatch(_id));
-      addCart(dispatch, userId, products);
-      // console.log({ ...productChart, size, color, quantity });
+      updatecart(userId, { products: products });
+      dispatch(addToCart({ userId, products: products }));
     }
   };
-
   return (
     <Container>
-      <Navbar />
+      <Navbar />x
       <Announcement />
       <Wrapper>
         <ImgContainer>
