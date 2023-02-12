@@ -34,13 +34,15 @@ export const Price = styled.p`
 `;
 function ProductNewArrival({ item }) {
   return (
-    <Link to="/cart">
-      <Container>
-        <Image src={item.imgDisplay} />
-        <Title>{item.title}</Title>
-        <Price>{item.price}</Price>
-      </Container>
-    </Link>
+    <>
+      <Link to={`/product/${item._id}`}>
+        <Container>
+          <Image src={item.imgDisplay} />
+          <Title>{item.title}</Title>
+          <Price>{item.price}</Price>
+        </Container>
+      </Link>
+    </>
   );
 }
 

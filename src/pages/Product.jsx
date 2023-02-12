@@ -1,4 +1,4 @@
-import { Add, CallMerge, Remove } from "@material-ui/icons";
+import { Add, Remove } from "@material-ui/icons";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,7 +15,7 @@ import { addToCart } from "../redux/cartRedux";
 import { mobile } from "../responsive";
 import { fetchData } from "../useFetch";
 import Sliders from "../components/Slider";
-import { addCart, updatecart } from "../redux/apiCall";
+import { updatecart } from "../redux/apiCall";
 
 const Container = styled.div``;
 
@@ -37,12 +37,12 @@ const ImgContainer = styled.div`
   ${mobile({ display: "none" })}
 `;
 
-const Image = styled.img`
-  width: 100%;
-  height: 90vh;
-  object-fit: cover;
-  ${mobile({ height: "40vh" })}
-`;
+// const Image = styled.img`
+//   width: 100%;
+//   height: 90vh;
+//   object-fit: cover;
+//   ${mobile({ height: "40vh" })}
+// `;
 
 const InfoContainer = styled.div`
   flex: 1;
@@ -171,8 +171,7 @@ const Product = () => {
   const [clicked, setClicked] = useState(false);
   const [errorSize, setErrorSize] = useState(false);
   const [errorColor, setErrorColor] = useState(false);
-  const { _id } = useSelector((state) => state.user.currentUser);
-  const cart = useSelector((state) => state.cart.products);
+  const { _id } = useSelector((state) => state?.user?.currentUser);
   const userId = _id;
   const dispatch = useDispatch();
 
@@ -243,7 +242,7 @@ const Product = () => {
     if (!size || !color) {
       validate();
     } else {
-      updatecart(userId, { products: products });
+      updatecart(userId, { products: products }, dispatch);
       dispatch(addToCart({ userId, products: products }));
     }
   };

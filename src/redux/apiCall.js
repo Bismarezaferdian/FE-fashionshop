@@ -1,4 +1,4 @@
-import { fetchData, fetchUser } from "../useFetch";
+import { fetchData } from "../useFetch";
 import { loginStart, loginSuccess, loginFailure } from "./userRedux";
 import {
   getCategoriesStart,
@@ -11,8 +11,7 @@ import {
   getProductStart,
   getProductSucces,
 } from "./productRedux";
-import { addCartFailure, addCartStart, addQty, addToCart } from "./cartRedux";
-import { CallMerge } from "@material-ui/icons";
+import { addCartFailure, addCartStart, addToCart } from "./cartRedux";
 
 export const login = async (dispatch, user) => {
   console.log(user);
@@ -71,12 +70,13 @@ export const getCart = async (userId, dispatch) => {
   } catch (error) {}
 };
 
-export const updatecart = async (userId, data) => {
+export const updatecart = async (userId, data, dispatch) => {
   // console.log(userId, data);
-  // dispatch(updateQtyStart())
+  dispatch(addCartStart());
   try {
     await fetchData.post(`/carts/${userId}`, data);
   } catch (error) {
+    dispatch(addCartFailure());
     console.log(error);
   }
 };

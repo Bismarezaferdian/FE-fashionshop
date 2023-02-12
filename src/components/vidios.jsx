@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import { banner, vidio } from "../data";
+import { banner } from "../data";
 
 export const Container = styled.div`
   display: grid;

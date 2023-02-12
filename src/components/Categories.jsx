@@ -1,9 +1,7 @@
 import { useEffect } from "react";
-import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { categories } from "../data";
 import { getCategories } from "../redux/apiCall";
 import { mobile } from "../responsive";
 import { fetchData } from "../useFetch";

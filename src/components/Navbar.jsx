@@ -1,7 +1,5 @@
 import { Badge } from "@material-ui/core";
 import {
-  AccountBalanceRounded,
-  AccountCircleOutlined,
   AccountCircleRounded,
   Search,
   ShoppingCartOutlined,
@@ -13,20 +11,30 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { revertAll } from "../redux/action";
-import { mobile } from "../responsive";
+import { mobile, tablet } from "../responsive";
 
-const Container = styled.div`
-  height: 60px;
-  ${mobile({ height: "50px" })}
-  background: #3330E4;
+const Container = styled.nav`
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  /* height: 80px; */
+  background: #3330e4;
+  display: flex;
+  align-items: center;
+  ${mobile({ height: "50px" })}/* justify-content: space-between; */
 `;
 
 const Wrapper = styled.div`
-  padding: 10px 20px;
+  padding: 0 20px;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  ${mobile({ padding: "10px 0px" })}
+  width: 100%;
+  overflow: hidden;
+  ${mobile({ padding: "10px 0px" })}/* align-items: center; */
+  /* justify-content: space-between; */
+`;
+
+const ShoppingCart = styled(ShoppingCartOutlined)`
+  color: #ffff;
 `;
 
 const Left = styled.div`
@@ -51,22 +59,49 @@ const SearchContainer = styled.div`
 
 const Input = styled.input`
   border: none;
+  outline: none;
+  padding: 5px;
+  margin-right: 5px;
+  box-shadow: none;
+  &:active {
+    outline: none;
+    box-shadow: none;
+  }
   ${mobile({ width: "50px" })}
 `;
 
 const Center = styled.div`
   flex: 1;
   text-align: center;
+  display: flex;
+  height: 100%;
+  /* align-items: center; */
+  /* justify-content: center; */
+  flex-direction: column;
 `;
 
 const Logo = styled(Link)`
   font-weight: bold;
   text-decoration: none;
   color: #ffffff;
-  /* color:  black; */
+  /* margin-top: 20px; */
+  /* color:  #000000; */
 
   ${mobile({ fontSize: "24px" })}
 `;
+
+const NavWrapLink = styled.div`
+  display: flex;
+  align-items: end;
+  margin-top: 10px;
+  justify-content: space-between;
+  ${tablet({ display: "none" })}
+`;
+
+const NavLink = styled.p`
+  color: #ffffff;
+`;
+
 const Right = styled.div`
   flex: 1;
   display: flex;
@@ -116,6 +151,7 @@ const Navbar = () => {
   }, [sortProduct, allProduct]);
 
   const handleClick = (e) => {
+    // console.log(productFilters);
     e.preventDefault();
     navigate("/products", { state: productFilters });
   };
@@ -136,16 +172,21 @@ const Navbar = () => {
             />
             <Search
               onClick={handleClick}
-              style={{ color: "gray", fontSize: 16 }}
+              style={{ color: "white", fontSize: 16 }}
             />
           </SearchContainer>
         </Left>
         <Center>
-          {/* <Link to={"/"}> */}
           <Logo to={"/"}>
             <h1>SNEAKERS</h1>
           </Logo>
-          {/* </Link> */}
+          <NavWrapLink>
+            <NavLink>New Arrival</NavLink>
+            <NavLink>Mens</NavLink>
+            <NavLink>Womens</NavLink>
+            <NavLink>Brands</NavLink>
+            <NavLink>Shoes</NavLink>
+          </NavWrapLink>
         </Center>
 
         <Right>
@@ -168,8 +209,8 @@ const Navbar = () => {
 
           <MenuItem>
             <Link to={"/cart"}>
-              <Badge badgeContent={qty} color="primary">
-                <ShoppingCartOutlined />
+              <Badge badgeContent={qty} color="error">
+                <ShoppingCart />
               </Badge>
             </Link>
           </MenuItem>

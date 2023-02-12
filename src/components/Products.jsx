@@ -18,13 +18,15 @@ const Products = ({ cat, filters, sort }) => {
   const [productFilters, setProductFilters] = useState(state);
   const allProduct = useSelector((state) => state.product.products);
   const [product, setProduct] = useState(allProduct);
-  // const [products, setProducts] = useState([]);
-  // const [filteredProducts, setFilteredProducts] = useState([1]);
   const dispatch = useDispatch();
 
   useEffect(() => {
     getProducts(dispatch);
   }, [dispatch]);
+
+  useEffect(() => {
+    setProductFilters(state);
+  }, [state]);
 
   // useEffect(() => {
   // filters &&
@@ -54,7 +56,7 @@ const Products = ({ cat, filters, sort }) => {
           [...prev].sort((a, b) => b.price - a.price)
         );
       }
-    } else {
+    } else if (allProduct) {
       if (sort === "newest") {
         setProduct((prev) =>
           [...prev].sort(
@@ -67,11 +69,11 @@ const Products = ({ cat, filters, sort }) => {
         setProduct((prev) => [...prev].sort((a, b) => b.price - a.price));
       }
     }
-  }, [sort, state]);
+  }, [sort, state, allProduct]);
 
-  useEffect(() => {
-    productFilters ? setProduct(productFilters) : setProduct(allProduct);
-  }, [productFilters, allProduct]);
+  // useEffect(() => {
+  //   productFilters ? setProduct(productFilters) : setProduct(allProduct);
+  // }, [productFilters, state, allProduct]);
 
   return (
     <Container>

@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination, Navigation } from "swiper";
+import { Navigation } from "swiper";
 import { rellsProduct } from "../data";
 import Rells from "../components/Rells";
 import { Link } from "react-router-dom";

@@ -52,12 +52,9 @@ const NewArrival = () => {
             disableOnInteraction: false,
             pauseOnMouseEnter: true,
           }}
-          // pagination={{
-          //   clickable: true,
-          // }}
           // navigation={true}
-          //   draggable={true}
-          modules={[Pagination, Navigation, Autoplay]}
+          draggable={true}
+          modules={[Navigation, Autoplay]}
           className="mySwiper"
         >
           {shoes.map((item) => (
@@ -81,7 +78,7 @@ const NewArrival = () => {
           //   clickable: true,
           // }}
           // navigation={true}
-          //   draggable={true}
+          draggable={true}
           modules={[Pagination, Navigation, Autoplay]}
           className="mySwiper"
         >

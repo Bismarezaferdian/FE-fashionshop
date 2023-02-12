@@ -1,22 +1,14 @@
 import { Add, Remove } from "@material-ui/icons";
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
-import styled, { createGlobalStyle } from "styled-components";
+import styled from "styled-components";
 import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import { deleteProductCart, getCart, updatecart } from "../redux/apiCall";
-import {
-  addQty,
-  addToCart,
-  minQty,
-  removeChart,
-  removeQty,
-} from "../redux/cartRedux";
+import { addQty, removeQty } from "../redux/cartRedux";
 import { mobile } from "../responsive";
-import { fetchData } from "../useFetch";
+var debounce = require("lodash.debounce");
 
 const Container = styled.div``;
 
@@ -121,7 +113,7 @@ const ProductAmountContainer = styled.div`
 `;
 
 export const Btn = styled.button`
-  background-color: red;
+  /* background-color: red; */
 `;
 
 const ProductAmount = styled.div`
@@ -188,83 +180,55 @@ const Button = styled.button`
 `;
 
 const Cart = () => {
-  // const [idProduct, setIdProduct] = useState(null);
-  const cart = useSelector((state) => state.cart);
-  const { _id } = useSelector((state) => state.user.currentUser);
+  const cart = useSelector((state) => state?.cart);
+  const { error, isFetch } = useSelector((state) => state?.cart);
+  console.log(error, isFetch);
+  const { _id } = useSelector((state) => state?.user?.currentUser);
   const userId = _id;
   const dispatch = useDispatch();
-
-  //version chat gpt
-  // const [quantityUpdates, setQuantityUpdates] = useState({});
-
-  // console.log(quantityUpdates);
-  // useEffect(() => {
-  //   getCart(userId, dispatch);
-  // }, [userId, dispatch]);
-
-  // useEffect(() => {
-  //   if (Object.keys(quantityUpdates).length) {
-  //     const update = {};
-  //     Object.entries(quantityUpdates).forEach(([id, qty]) => {
-  //       update[id] = qty;
-  //     });
-  //     updatecart(userId, {
-  //       products: update,
-  //     });
-  //     setQuantityUpdates({});
-  //   }
-  // }, [quantityUpdates, userId]);
-
-  // const handleQty = (item, action) => {
-  //   setQuantityUpdates((prevState) => {
-  //     const updates = { ...prevState };
-  //     if (action === "plus") {
-  //       updates[item._id] = (updates[item._id] || 0) + 1;
-  //       dispatch(addQty(item));
-  //     } else if (action === "minus") {
-  //       updates[item._id] = (updates[item._id] || 0) - 1;
-  //       dispatch(removeQty(item));
-  //     }
-  //     return updates;
-  //   });
-  // };
-
-  ///
 
   useEffect(() => {
     getCart(userId, dispatch);
   }, [userId, dispatch]);
 
-  // const debouncedHandleQty = useCallback(
-  //   debounce((item, action) => {
-  //     if (action === "plus") {
-  //       updatecart(userId, {
-  //         products: item,
-  //       });
-  //       dispatch(addQty(item));
-  //     } else if (action === "minus") {
-  //       deleteProductCart(userId, {
-  //         products: item,
-  //       });
-  //       dispatch(removeQty(item));
-  //     }
-  //   }, 500),
-  //   []
-  // );
-
-  const handleQty = async (item, action) => {
+  //handle button dengan bounce /untuk kasi jeda user bisa click button plus
+  const debouncedHandleQty = debounce((item, action) => {
     if (action === "plus") {
-      await updatecart(userId, {
-        products: item,
-      });
+      updatecart(
+        userId,
+        {
+          products: item,
+        },
+        dispatch
+      );
       dispatch(addQty(item));
     } else if (action === "minus") {
-      await deleteProductCart(userId, {
+      deleteProductCart(userId, {
         products: item,
       });
       dispatch(removeQty(item));
     }
+  }, 1000);
+
+  const handleQty = async (item, action) => {
+    debouncedHandleQty(item, action);
+    // if (action === "plus") {
+    //   await updatecart(
+    //     userId,
+    //     {
+    //       products: item,
+    //     },
+    //     dispatch
+    //   );
+    //   dispatch(addQty(item));
+    // } else if (action === "minus") {
+    //   await deleteProductCart(userId, {
+    //     products: item,
+    //   });
+    //   dispatch(removeQty(item));
+    // }
   };
+
   return (
     <Container>
       <Navbar />
@@ -301,11 +265,18 @@ const Cart = () => {
                 </ProductDetail>
                 <PriceDetail>
                   <ProductAmountContainer>
-                    <Btn id="plus" onClick={() => handleQty(item, "plus")}>
+                    <Btn
+                      disabled={isFetch ? true : false}
+                      id="plus"
+                      onClick={() => handleQty(item, "plus")}
+                    >
                       <Add />
                     </Btn>
                     <ProductAmount>{item.quantity}</ProductAmount>
-                    <Btn onClick={() => handleQty(item, "minus")}>
+                    <Btn
+                      disabled={isFetch ? true : false}
+                      onClick={() => handleQty(item, "minus")}
+                    >
                       {item.quantity === 1 ? "delete" : <Remove />}
                     </Btn>
                   </ProductAmountContainer>

@@ -1,4 +1,4 @@
-import { createSlice, current } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { revertAll } from "./action";
 
 // const initialState = {
@@ -57,7 +57,8 @@ const cartSlice = createSlice({
     },
 
     addToCart: (state, { payload }) => {
-      console.log(payload);
+      state.isFetch = false;
+      state.error = false;
       if (payload.products instanceof Array) {
         payload.products.forEach((product) => {
           const inCart = state.products.find(
@@ -96,7 +97,9 @@ const cartSlice = createSlice({
     },
 
     addQty: (state, { payload }) => {
-      console.log(payload);
+      state.isFetch = false;
+      state.error = false;
+      // console.log(payload);
       const inCart = state.products.find(
         (item) =>
           item._id === payload._id &&
@@ -104,12 +107,18 @@ const cartSlice = createSlice({
           item.size === payload.size
       );
       if (inCart) {
-        console.log(true);
         inCart.quantity += 1;
         state.total += inCart.price;
       }
     },
+
+    addCartFailure: (state) => {
+      state.isFetch = false;
+      state.error = true;
+    },
     removeQty: (state, { payload }) => {
+      state.isFetch = false;
+      state.error = false;
       const inCart = state.products.find(
         (item) =>
           item._id === payload._id &&
@@ -136,11 +145,6 @@ const cartSlice = createSlice({
         state.qty -= 1;
       }
     },
-  },
-
-  addCartFailure: (state) => {
-    state.isFetch = false;
-    state.error = true;
   },
 });
 

@@ -1,11 +1,9 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 import styled from "styled-components";
 import { login } from "../redux/apiCall";
 import { mobile } from "../responsive";
-import { fetchData } from "../useFetch";
 
 const Container = styled.div`
   width: 100vw;
@@ -64,13 +62,11 @@ const Link = styled.a`
 `;
 
 const Login = () => {
-  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   // const { isFetching, error } = useSelector((state) => state.user);
 
-  const user = { email, password };
   const handleClick = (e) => {
     e.preventDefault();
     login(dispatch, { email, password });
