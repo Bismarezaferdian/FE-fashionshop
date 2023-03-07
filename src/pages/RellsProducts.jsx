@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper";
-import { rellsProduct } from "../data";
 import Rells from "../components/Rells";
 import { Link } from "react-router-dom";
+import { fetchData } from "../useFetch";
 
 export const Container = styled.div`
   display: grid;
@@ -24,7 +24,7 @@ export const LinkTitle = styled(Link)`
   font-size: 18px;
   font-weight: 600;
   text-decoration: none;
-  list-style: none;
+  /* list-style: none; */
   color: blue;
 `;
 
@@ -49,6 +49,16 @@ export const SlideWrapp = styled.div`
 `;
 
 const RellsProducts = () => {
+  const [productMore, setProductMore] = useState([]);
+
+  useEffect(() => {
+    const getproduct = async () => {
+      const res = await fetchData.get("/products?new=true&limit=10");
+      setProductMore(res.data);
+    };
+    return getproduct();
+  }, []);
+
   return (
     <Container>
       <WrappTitle>
@@ -64,8 +74,8 @@ const RellsProducts = () => {
           modules={[Navigation]}
           className="mySwiper"
         >
-          {rellsProduct.map((item) => (
-            <SwiperSlide key={item.id}>
+          {productMore.map((item, i) => (
+            <SwiperSlide key={i}>
               <Rells item={item} />
             </SwiperSlide>
           ))}

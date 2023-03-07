@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 import Navbar from "../components/Navbar";
 import Announcement from "../components/Announcement";
 import Products from "../components/Products";
@@ -6,6 +6,7 @@ import Newsletter from "../components/Newsletter";
 import Footer from "../components/Footer";
 import { mobile } from "../responsive";
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
 
 const Container = styled.div``;
 
@@ -38,6 +39,12 @@ const Select = styled.select`
 const Option = styled.option``;
 
 const ProductList = () => {
+  const { state } = useLocation();
+  //from navbar untuk set title
+  const sortProduct = state?.sortProduct;
+  //from navbar untuk set title
+  const productFilters = state?.productFilters;
+  // console.log(productFilters);
   const [filters, setFilters] = useState({});
   const [sort, setSort] = useState();
   const handleFilter = (e) => {
@@ -52,7 +59,7 @@ const ProductList = () => {
     <Container>
       <Navbar />
       <Announcement />
-      <Title>Dresses</Title>
+      <Title>{productFilters ? sortProduct : "allProduct"}</Title>
       <FilterContainer>
         <Filter>
           <FilterText>Filter Products:</FilterText>
@@ -83,6 +90,7 @@ const ProductList = () => {
           </Select>
         </Filter>
       </FilterContainer>
+      {productFilters && "Product yang anda cari tidak ada"}
       <Products filters={filters} sort={sort} />
       <Newsletter />
       <Footer />

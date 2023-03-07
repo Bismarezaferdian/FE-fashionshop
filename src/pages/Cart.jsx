@@ -183,8 +183,9 @@ const Cart = () => {
   const cart = useSelector((state) => state?.cart);
   const { error, isFetch } = useSelector((state) => state?.cart);
   console.log(error, isFetch);
-  const { _id } = useSelector((state) => state?.user?.currentUser);
-  const userId = _id;
+  const userId = useSelector((state) => state.user.currentUser?._id);
+  // const userId = _id;
+  // const userId = "";
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -245,7 +246,7 @@ const Cart = () => {
         </Top>
         <Bottom>
           <Info>
-            {cart.products.map((item, i) => (
+            {cart?.products?.map((item, i) => (
               <Product>
                 <ProductDetail>
                   <Image src={item.imgDisplay} />
@@ -303,7 +304,7 @@ const Cart = () => {
             </SummaryItem>
             <SummaryItem type="total">
               <SummaryItemText>Total</SummaryItemText>
-              <SummaryItemPrice>Rp.{cart.total}</SummaryItemPrice>
+              <SummaryItemPrice>Rp.{cart?.total}</SummaryItemPrice>
             </SummaryItem>
             <Button>CHECKOUT NOW</Button>
           </Summary>

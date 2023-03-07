@@ -1,9 +1,29 @@
 import { Badge } from "@material-ui/core";
 import {
   AccountCircleRounded,
+  ArrowBackOutlined,
+  ArrowRight,
   Search,
   ShoppingCartOutlined,
 } from "@material-ui/icons";
+import Box from "@mui/material/Box";
+import Avatar from "@mui/material/Avatar";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import Divider from "@mui/material/Divider";
+import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
+// import {
+//   Avatar,
+//   Box,
+//   Divider,
+//   Icon,
+//   IconButton,
+//   ListItemIcon,
+//   Menu,
+//   Tooltip,
+// } from "@mui/material";
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -12,6 +32,7 @@ import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { revertAll } from "../redux/action";
 import { mobile, tablet } from "../responsive";
+import { logout } from "../redux/userRedux";
 
 const Container = styled.nav`
   position: sticky;
@@ -20,6 +41,7 @@ const Container = styled.nav`
   /* height: 80px; */
   background: #3330e4;
   display: flex;
+  padding: 10px;
   align-items: center;
   ${mobile({ height: "50px" })}/* justify-content: space-between; */
 `;
@@ -124,14 +146,22 @@ export const Name = styled.h1`
   color: #ffffff;
 `;
 
-const MenuItem = styled.div`
+const MenuItems = styled.div`
   font-size: 14px;
   cursor: pointer;
   margin-left: 25px;
   text-decoration: none;
   color: #000000;
+  :nth-child(1) {
+    color: white;
+    text-decoration: none;
+  }
   ${mobile({ fontSize: "12px", marginLeft: "10px" })}
 `;
+
+// export const Icon = styled(MdLogout)`
+//   font-size: 22px;
+// `;
 
 const Navbar = () => {
   const [sortProduct, setSortProduct] = useState("");
@@ -153,13 +183,27 @@ const Navbar = () => {
   const handleClick = (e) => {
     // console.log(productFilters);
     e.preventDefault();
-    navigate("/products", { state: productFilters });
+    navigate("/products", { state: { productFilters, sortProduct } });
   };
 
   const handleLogout = (e) => {
     e.preventDefault();
     dispatch(revertAll());
+    dispatch(logout());
+    navigate("/login");
   };
+
+  ///
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const handleModal = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
     <Container>
       <Wrapper>
@@ -191,29 +235,98 @@ const Navbar = () => {
 
         <Right>
           {user ? (
-            <div>
-              <UserIcon>
-                <IconUser />
-                <Name>{user.firstname}</Name>
-              </UserIcon>
-            </div>
+            <>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  textAlign: "center",
+                }}
+              >
+                <Tooltip title="Account settings">
+                  <IconButton
+                    onClick={handleModal}
+                    size="small"
+                    sx={{ ml: 2 }}
+                    aria-controls={open ? "account-menu" : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={open ? "true" : undefined}
+                  >
+                    <Avatar sx={{ width: 32, height: 32 }}>
+                      "bisma"
+                      {/* <UserName>{name}</UserName> */}
+                    </Avatar>
+                  </IconButton>
+                </Tooltip>
+              </Box>
+              <Menu
+                anchorEl={anchorEl}
+                id="account-menu"
+                open={open}
+                onClose={handleClose}
+                onClick={handleClose}
+                PaperProps={{
+                  elevation: 0,
+                  sx: {
+                    overflow: "visible",
+                    filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+                    mt: 1.5,
+                    "& .MuiAvatar-root": {
+                      width: 32,
+                      height: 32,
+                      ml: -0.5,
+                      mr: 1,
+                    },
+                    "&:before": {
+                      content: '""',
+                      display: "block",
+                      position: "absolute",
+                      top: 0,
+                      right: 14,
+                      width: 10,
+                      height: 10,
+                      bgcolor: "background.paper",
+                      transform: "translateY(-50%) rotate(45deg)",
+                      zIndex: 0,
+                    },
+                  },
+                }}
+                transformOrigin={{ horizontal: "right", vertical: "top" }}
+                anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+              >
+                <MenuItem disabled>
+                  <Avatar /> Profile
+                </MenuItem>
+                <MenuItem disabled>
+                  <Avatar /> My account
+                </MenuItem>
+                <Divider />
+
+                <MenuItem onClick={handleLogout}>
+                  <ListItemIcon>
+                    <ArrowRight />
+                  </ListItemIcon>
+                  Logout
+                </MenuItem>
+              </Menu>
+            </>
           ) : (
             <>
-              <MenuItem>REGISTER</MenuItem>
+              <MenuItems>REGISTER</MenuItems>
               <Link to={"/login"}>
-                <MenuItem>SIGN IN</MenuItem>
+                <MenuItems>SIGN IN</MenuItems>
               </Link>
             </>
           )}
-          <button onClick={handleLogout}>logout</button>
+          {/* <button onClick={handleLogout}>logout</button> */}
 
-          <MenuItem>
+          <MenuItems>
             <Link to={"/cart"}>
               <Badge badgeContent={qty} color="error">
                 <ShoppingCart />
               </Badge>
             </Link>
-          </MenuItem>
+          </MenuItems>
         </Right>
       </Wrapper>
     </Container>

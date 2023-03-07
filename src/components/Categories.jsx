@@ -1,3 +1,4 @@
+import { Skeleton } from "@mui/material";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -10,13 +11,13 @@ import CategoryItem from "./CategoryItem";
 const Container = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  padding: 20px 60px;
+  padding: 20px 40px;
   justify-content: space-between;
   ${mobile({ padding: "0px", flexDirection: "column" })}
 `;
 
 const Categories = () => {
-  const allCategories = useSelector((state) => state.categorie.categories);
+  const { categories, isFetching } = useSelector((state) => state.categorie);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -43,10 +44,24 @@ const Categories = () => {
 
   return (
     <Container>
-      {allCategories.map((item, i) => (
-        <div onClick={() => handleClick(item.brand)} key={i}>
-          {/* <div onClick={() => console.log("test")}> */}
-          <CategoryItem item={item} />
+      {categories.map((item, i) => (
+        <div key={i}>
+          {isFetching ? (
+            <>
+              <Skeleton
+                // sx={{ bgcolor: "grey.900" }}
+                variant="rectangular"
+                animation="wave"
+                width={210}
+                height={118}
+              />
+            </>
+          ) : (
+            <div onClick={() => handleClick(item.brand)} key={i}>
+              {/* <div onClick={() => console.log("test")}> */}
+              <CategoryItem item={item} />
+            </div>
+          )}
         </div>
       ))}
     </Container>

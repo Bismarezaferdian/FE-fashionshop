@@ -88,7 +88,7 @@ const Product = ({ item }) => {
   return (
     <Container>
       <Circle />
-      <Image src={item.imgDisplay} />
+      <Image src={item.imgDisplay.imgUrl} />
       <Title>{item.title}</Title>
       <Price>{item.price}</Price>
       <Info>

@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { fetchData } from "../useFetch";
 import { useState } from "react";
+import ClotesNewArrival from "../components/ClotesNewArrival";
 
 export const Container = styled.div`
   display: grid;
@@ -18,27 +19,37 @@ export const SlideWrapp = styled.div`
   /* gap: 20px; */
   padding: 0 40px;
   /* width:  */
+  text-decoration: none;
+
   margin: 20px 0 20px 0;
   max-width: 100vw;
   overflow: hidden;
 `;
 
 const NewArrival = () => {
-  const allProduct = useSelector((state) => state.product.products);
+  // const allProduct = useSelector((state) => state.product);
   // console.log(allProduct);
   const [shoes, setShoes] = useState([]);
   const [clotes, setClotes] = useState([]);
+  const [loading, setLoading] = useState(false);
+  // const [error, setError] = useState(null);
 
   useEffect(() => {
     const getProductWithCat = async () => {
-      //limit set di api product
-      const res = await fetchData.get(`/products?categories=SHOES&limit=4`);
-      setShoes(res?.data);
-      const cloth = await fetchData.get("/products?categories=CLOTHES");
-      setClotes(cloth?.data);
+      setLoading(true);
+      try {
+        //limit set di api product
+        const res = await fetchData.get(`/products?categories=SHOES`);
+        setShoes(res?.data);
+        const cloth = await fetchData.get("/products?categories=CLOTHES");
+        setClotes(cloth?.data);
+      } catch (error) {
+        // setError(error);
+      }
+      setLoading(false);
     };
     getProductWithCat();
-  }, [allProduct]);
+  }, []);
 
   return (
     <Container>
@@ -46,20 +57,20 @@ const NewArrival = () => {
         <Swiper
           slidesPerView={4.5}
           spaceBetween={30}
-          loop={true}
           autoplay={{
-            delay: 1000,
+            delay: 3000,
             disableOnInteraction: false,
             pauseOnMouseEnter: true,
           }}
+          loop={true}
           // navigation={true}
-          draggable={true}
+          // draggable={true}
           modules={[Navigation, Autoplay]}
           className="mySwiper"
         >
           {shoes.map((item) => (
             <SwiperSlide key={item._id}>
-              <ShoesNewArrival item={item} />
+              <ShoesNewArrival loading={loading} item={item} />
             </SwiperSlide>
           ))}
         </Swiper>
@@ -77,14 +88,15 @@ const NewArrival = () => {
           // pagination={{
           //   clickable: true,
           // }}
+
           // navigation={true}
           draggable={true}
-          modules={[Pagination, Navigation, Autoplay]}
+          modules={[Pagination, Autoplay]}
           className="mySwiper"
         >
           {clotes.map((item) => (
             <SwiperSlide key={item._id}>
-              <ShoesNewArrival item={item} />
+              <ClotesNewArrival loading={loading} item={item} />
             </SwiperSlide>
           ))}
         </Swiper>

@@ -2,7 +2,7 @@ import { Add, Remove } from "@material-ui/icons";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
@@ -171,8 +171,8 @@ const Product = () => {
   const [clicked, setClicked] = useState(false);
   const [errorSize, setErrorSize] = useState(false);
   const [errorColor, setErrorColor] = useState(false);
-  const { _id } = useSelector((state) => state?.user?.currentUser);
-  const userId = _id;
+  const userId = useSelector((state) => state.user.currentUser?._id);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -241,9 +241,12 @@ const Product = () => {
     // );
     if (!size || !color) {
       validate();
-    } else {
+    } else if (userId) {
       updatecart(userId, { products: products }, dispatch);
       dispatch(addToCart({ userId, products: products }));
+    } else {
+      alert("silahkan login dahulu");
+      navigate("/login");
     }
   };
   return (
@@ -262,7 +265,7 @@ const Product = () => {
           >
             {product.imgDetail?.map((item) => (
               <SwiperSlide>
-                <Sliders item={item} />
+                <Sliders item={item.imgUrl} />
               </SwiperSlide>
             ))}
           </Swiper>

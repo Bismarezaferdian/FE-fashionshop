@@ -14,7 +14,13 @@ const Container = styled.div`
 
 const Products = ({ cat, filters, sort }) => {
   //menerima state kiriman dari input searc from navbar and search from category
-  const { state } = useLocation();
+  // const {state}= useLocation()
+  // const {productFilters}= state
+
+  const products = useLocation();
+  // const state = products.state.productFilters;
+  const state = products.state?.productFilters;
+  console.log(state);
   const [productFilters, setProductFilters] = useState(state);
   const allProduct = useSelector((state) => state.product.products);
   const [product, setProduct] = useState(allProduct);
