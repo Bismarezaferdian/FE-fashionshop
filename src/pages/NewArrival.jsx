@@ -3,7 +3,6 @@ import styled from "styled-components";
 import ShoesNewArrival from "../components/ShoesNewArrival";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Navigation, Autoplay } from "swiper";
-import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { fetchData } from "../useFetch";
 import { useState } from "react";
@@ -39,9 +38,9 @@ const NewArrival = () => {
       setLoading(true);
       try {
         //limit set di api product
-        const res = await fetchData.get(`/products?categories=SHOES`);
+        const res = await fetchData.get(`/products?categories=shoes`);
         setShoes(res?.data);
-        const cloth = await fetchData.get("/products?categories=CLOTHES");
+        const cloth = await fetchData.get("/products?categories=apparel");
         setClotes(cloth?.data);
       } catch (error) {
         // setError(error);
@@ -50,7 +49,6 @@ const NewArrival = () => {
     };
     getProductWithCat();
   }, []);
-
   return (
     <Container>
       <SlideWrapp>

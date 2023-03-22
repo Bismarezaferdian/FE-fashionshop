@@ -34,7 +34,7 @@ export const Price = styled.p`
 function Rells({ item }) {
   return (
     <Container>
-      <Image src={item.imgDisplay} />
+      <Image src={item.imgDisplay.imgUrl} />
       {/* <Title>{item.title}</Title>
       <Price>{item.price}</Price> */}
     </Container>

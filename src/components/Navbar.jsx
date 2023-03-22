@@ -1,7 +1,6 @@
 import { Badge } from "@material-ui/core";
 import {
   AccountCircleRounded,
-  ArrowBackOutlined,
   ArrowRight,
   Search,
   ShoppingCartOutlined,

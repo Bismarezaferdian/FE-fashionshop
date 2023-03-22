@@ -59,6 +59,7 @@ const RellsProducts = () => {
     return getproduct();
   }, []);
 
+  console.log(productMore);
   return (
     <Container>
       <WrappTitle>

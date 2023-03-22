@@ -20,7 +20,6 @@ const Products = ({ cat, filters, sort }) => {
   const products = useLocation();
   // const state = products.state.productFilters;
   const state = products.state?.productFilters;
-  console.log(state);
   const [productFilters, setProductFilters] = useState(state);
   const allProduct = useSelector((state) => state.product.products);
   const [product, setProduct] = useState(allProduct);

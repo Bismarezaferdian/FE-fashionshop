@@ -263,8 +263,8 @@ const Product = () => {
             modules={[Pagination, Navigation]}
             className="mySwiper"
           >
-            {product.imgDetail?.map((item) => (
-              <SwiperSlide>
+            {product.imgDetail?.map((item, i) => (
+              <SwiperSlide key={i}>
                 <Sliders item={item.imgUrl} />
               </SwiperSlide>
             ))}
@@ -277,8 +277,8 @@ const Product = () => {
           <FilterContainer>
             <Filter>
               <FilterTitle>Color</FilterTitle>
-              {product.color?.map((colors) => (
-                <FilterColor onClick={(e) => setColor(e.target.value)}>
+              {product.color?.map((colors, i) => (
+                <FilterColor key={i} onClick={(e) => setColor(e.target.value)}>
                   <FilterOptionColor>{colors}</FilterOptionColor>
                 </FilterColor>
               ))}
@@ -288,8 +288,8 @@ const Product = () => {
             ) : null}
             <Filter>
               <FilterTitle>Size</FilterTitle>
-              {product.size?.map((item) => (
-                <FilterSize onClick={(e) => setSize(e.target.value)}>
+              {product.size?.map((item, i) => (
+                <FilterSize key={i} onClick={(e) => setSize(e.target.value)}>
                   <FilterOptionSize
                     // key={item}
                     clicked={clicked[item]}
@@ -301,6 +301,7 @@ const Product = () => {
                 </FilterSize>
               ))}
             </Filter>
+            <Price>stock {product.stock}</Price>
             {errorSize ? (
               <span style={{ color: "red " }}>silahkan pilih ukuran</span>
             ) : null}
