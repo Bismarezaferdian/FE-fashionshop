@@ -24,7 +24,7 @@ export const sliderItems = [
     id: 4,
     img: "http://res.cloudinary.com/websitemuid/image/upload/v1674232299/upload/suwxqdnfdwrubcprjohe.png",
     title: "LOUNGEWEAR LOV",
-    desc: "DON'T COMPROMISE ON STYLE! GET FLAT 30% OFF FOR NEW ARRIVALS.",
+    desc: "DON'Tts COMPROMISE ON STYLE! GET FLAT 30% OFF FOR NEW ARRIVALS.",
     bg: "fbf0f4",
   },
 
